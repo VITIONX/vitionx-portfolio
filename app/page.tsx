@@ -9,8 +9,8 @@ export default function Home() {
       ========================= */}
       <header className="header">
         <a href="#home" className="logo">
-          vition<span>X</span>
-        </a>
+  <img src="/logo.svg" alt="VitionX" />
+</a>
 
         <nav className="nav">
           <a href="#home">Home</a>

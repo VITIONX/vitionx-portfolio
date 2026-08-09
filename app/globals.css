@@ -79,15 +79,16 @@ HEADER
 }
 
 .logo {
-  font-family: 'Mandalore', 'Poppins', sans-serif;
-  font-size: 27px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 
-.logo span {
-  color: var(--orange);
+.logo img {
+  display: block;
+  width: 135px;
+  height: auto;
+  object-fit: contain;
 }
 
 .nav {
