@@ -2487,4 +2487,118 @@ letter-spacing: 1.5px;
   }
 
 }
+
+@media (max-width: 768px) {
+  .hero-orbit span {
+    font-size: 22px;
+    line-height: 1.05;
+    font-weight: 700;
+  }
+}
+
+/* =========================================================
+   MOBILE — HERO PROOF / 700+ FIX
+   Desktop untouched
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .hero-proof {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+    padding: 0 12px;
+
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  .proof-number {
+    flex: 0 1 auto;
+    min-width: 0;
+
+    font-size: clamp(52px, 15vw, 82px);
+    line-height: 0.9;
+
+    white-space: nowrap;
+  }
+
+  .proof-text {
+    flex: 0 1 auto;
+    min-width: 0;
+
+    text-align: left;
+  }
+
+  .proof-text strong {
+    white-space: nowrap;
+    font-size: clamp(20px, 5vw, 28px);
+  }
+
+  .proof-text span {
+    display: block;
+    white-space: normal;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .proof-line {
+    flex: 0 0 1px;
+    height: 80px;
+  }
+
+  .proof-badge {
+    flex: 0 0 auto;
+
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+  }
+
+}
+
+
+/* Smaller phones */
+@media (max-width: 480px) {
+
+  .hero-proof {
+    gap: 8px;
+    padding: 0 6px;
+  }
+
+  .proof-number {
+    font-size: clamp(44px, 14vw, 62px);
+  }
+
+  .proof-text strong {
+    font-size: 19px;
+  }
+
+  .proof-text span {
+    font-size: 12px;
+  }
+
+  .proof-line {
+    height: 65px;
+  }
+
+  .proof-badge {
+    width: 50px;
+    height: 50px;
+  }
+
+}
+
 }
