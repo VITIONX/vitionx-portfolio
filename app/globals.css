@@ -2266,4 +2266,225 @@ letter-spacing: 1.5px;
 
     right: 0;
   }
+
+  /* =========================================================
+   MOBILE — HERO + STATS CENTER FIX
+   Desktop styles remain untouched
+========================================================= */
+
+@media (max-width: 768px) {
+
+  /* Prevent horizontal overflow */
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* =========================
+     HERO
+  ========================= */
+
+  .hero {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-title {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+
+    font-size: clamp(48px, 13vw, 82px);
+    line-height: 0.92;
+  }
+
+  .hero-description {
+    width: 100%;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+
+    text-align: center;
+  }
+
+  .hero-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-proof {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+
+  /* =========================
+     HERO VISUAL
+  ========================= */
+
+  .hero-visual {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .hero-image {
+    display: block;
+
+    width: min(92vw, 520px);
+    max-width: 100%;
+    height: auto;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    position: relative;
+    left: auto;
+    right: auto;
+    transform: none;
+  }
+
+
+  /* =========================
+     STATS
+  ========================= */
+
+  .stats-section {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    justify-content: center;
+    align-items: stretch;
+
+    overflow: hidden;
+  }
+
+  .stat {
+    width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+  }
+
+  .stat strong,
+  .stat span {
+    text-align: center;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .hero {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero-title {
+    font-size: clamp(42px, 12.5vw, 64px);
+    line-height: 0.94;
+  }
+
+  .hero-description {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .hero-image {
+    width: 94vw;
+    max-width: 440px;
+  }
+
+  .stats-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat {
+    min-height: 180px;
+    padding: 30px 12px;
+  }
+
+}
 }
