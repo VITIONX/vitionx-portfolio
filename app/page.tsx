@@ -17,7 +17,69 @@ export default function Home() {
       document.body.style.overflow = "";
     };
   }, [showIntro]);
+  
+// Stats count-up animation
+useEffect(() => {
+  const stats = document.querySelectorAll<HTMLElement>(".stat strong");
 
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const element = entry.target;
+
+        const target = parseFloat(
+          element.dataset.target ?? "0"
+        );
+
+        if (isNaN(target)) return;
+
+        const duration = 3000;
+        const startTime = performance.now();
+
+        const updateNumber = (currentTime: number) => {
+          const progress = Math.min(
+            (currentTime - startTime) / duration,
+            1
+          );
+
+          // Smooth ease-out animation
+          const easedProgress =
+            1 - Math.pow(1 - progress, 3);
+
+          const currentValue = target * easedProgress;
+
+          if (element.dataset.type === "rating") {
+            element.textContent =
+              currentValue.toFixed(1) + "/5";
+          } else if (element.dataset.type === "availability") {
+            element.textContent =
+              Math.floor(currentValue) + "/7";
+          } else {
+            element.textContent =
+              Math.floor(currentValue) + "+";
+          }
+
+          if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+          }
+        };
+
+        requestAnimationFrame(updateNumber);
+
+        observer.unobserve(element);
+      });
+    },
+    {
+      threshold: 0.4,
+    }
+  );
+
+  stats.forEach((stat) => observer.observe(stat));
+
+  return () => observer.disconnect();
+}, []);
   return (
     <>
       {/* =========================
