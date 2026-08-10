@@ -17,69 +17,72 @@ export default function Home() {
       document.body.style.overflow = "";
     };
   }, [showIntro]);
-  
-// Stats count-up animation
-useEffect(() => {
-  const stats = document.querySelectorAll<HTMLElement>(".stat strong");
 
-  const observer = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+  // Stats count-up animation
+  useEffect(() => {
+    const stats = document.querySelectorAll<HTMLElement>(".stat strong");
 
-        const element = entry.target;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
 
-        const target = parseFloat(
-          element.dataset.target ?? "0"
-        );
+          const element = entry.target as HTMLElement;
 
-        if (isNaN(target)) return;
-
-        const duration = 3000;
-        const startTime = performance.now();
-
-        const updateNumber = (currentTime: number) => {
-          const progress = Math.min(
-            (currentTime - startTime) / duration,
-            1
+          const target = parseFloat(
+            element.dataset.target ?? "0"
           );
 
-          // Smooth ease-out animation
-          const easedProgress =
-            1 - Math.pow(1 - progress, 3);
+          if (isNaN(target)) return;
 
-          const currentValue = target * easedProgress;
+          const duration = 3000;
+          const startTime = performance.now();
 
-          if (element.dataset.type === "rating") {
-            element.textContent =
-              currentValue.toFixed(1) + "/5";
-          } else if (element.dataset.type === "availability") {
-            element.textContent =
-              Math.floor(currentValue) + "/7";
-          } else {
-            element.textContent =
-              Math.floor(currentValue) + "+";
-          }
+          const updateNumber = (currentTime: number) => {
+            const progress = Math.min(
+              (currentTime - startTime) / duration,
+              1
+            );
 
-          if (progress < 1) {
-            requestAnimationFrame(updateNumber);
-          }
-        };
+            // Smooth ease-out animation
+            const easedProgress =
+              1 - Math.pow(1 - progress, 3);
 
-        requestAnimationFrame(updateNumber);
+            const currentValue = target * easedProgress;
 
-        observer.unobserve(element);
-      });
-    },
-    {
-      threshold: 0.4,
-    }
-  );
+            if (element.dataset.type === "rating") {
+              element.textContent =
+                currentValue.toFixed(1) + "/5";
+            } else if (
+              element.dataset.type === "availability"
+            ) {
+              element.textContent =
+                Math.floor(currentValue) + "/7";
+            } else {
+              element.textContent =
+                Math.floor(currentValue) + "+";
+            }
 
-  stats.forEach((stat) => observer.observe(stat));
+            if (progress < 1) {
+              requestAnimationFrame(updateNumber);
+            }
+          };
 
-  return () => observer.disconnect();
-}, []);
+          requestAnimationFrame(updateNumber);
+
+          observer.unobserve(element);
+        });
+      },
+      {
+        threshold: 0.4,
+      }
+    );
+
+    stats.forEach((stat) => observer.observe(stat));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       {/* =========================
@@ -485,7 +488,9 @@ useEffect(() => {
 
               <div className="portfolio-info">
                 <span>07</span>
-                <h3>Social Media Cover &amp; Banner Design</h3>
+                <h3>
+                  Social Media Cover &amp; Banner Design
+                </h3>
               </div>
             </article>
 
