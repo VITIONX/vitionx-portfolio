@@ -2352,19 +2352,6 @@ letter-spacing: 1.5px;
     justify-content: center;
   }
 
-  .hero-proof {
-    width: 100%;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-  }
-
-
   /* =========================
      HERO VISUAL
   ========================= */
@@ -2641,69 +2628,71 @@ letter-spacing: 1.5px;
   .hero-proof {
     width: 100%;
     max-width: 100%;
-    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns:
+      65px
+      minmax(0, 1fr)
+      1px
+      40px
+      40px
+      40px;
 
     align-items: center;
-    column-gap: 7px;
+    column-gap: 5px;
 
-    padding: 0 12px;
+    padding: 0 8px;
     margin: 0 auto;
 
-    overflow: hidden;
+    box-sizing: border-box;
   }
 
   /* 700+ */
   .hero-proof .proof-number {
-    width: auto;
-    min-width: 0;
+    font-size: 44px;
+    line-height: 0.85;
 
-    font-size: 52px;
-    line-height: 0.9;
     white-space: nowrap;
-
     text-align: left;
   }
 
   /* PROJECTS + Completed Successfully */
   .hero-proof .proof-text {
     min-width: 0;
-    width: 100%;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-
-    overflow: hidden;
   }
 
   .hero-proof .proof-text strong {
-    font-size: 18px;
-    line-height: 1.1;
+    font-size: 16px;
+    line-height: 1;
+
     white-space: nowrap;
   }
 
   .hero-proof .proof-text span {
-    font-size: 14px;
-    line-height: 1.2;
+    font-size: 12px;
+    line-height: 1.1;
 
     white-space: nowrap;
-    overflow: visible;
   }
 
-  /* Vertical divider */
+  /* Divider */
   .hero-proof .proof-line {
     width: 1px;
-    height: 54px;
-
-    margin: 0;
-    flex-shrink: 0;
+    height: 42px;
   }
 
-  /* Three round star boxes */
+  /* 3 round stars */
   .hero-proof .proof-badge {
+    width: 40px;
+    height: 40px;
 
-    box-sizing: border-box;
+    min-width: 40px;
+    min-height: 40px;
 
     display: flex;
     align-items: center;
@@ -2711,11 +2700,10 @@ letter-spacing: 1.5px;
 
     border-radius: 50%;
 
-    font-size: 17px;
-    line-height: 1;
-
-    flex-shrink: 0;
+    font-size: 14px;
   }
+}
+
 }
 
 }
