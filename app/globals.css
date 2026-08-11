@@ -2643,15 +2643,6 @@ letter-spacing: 1.5px;
     max-width: 100%;
     box-sizing: border-box;
 
-    display: grid;
-    grid-template-columns:
-      78px
-      minmax(0, 1fr)
-      1px
-      48px
-      48px
-      48px;
-
     align-items: center;
     column-gap: 7px;
 
@@ -2711,11 +2702,6 @@ letter-spacing: 1.5px;
 
   /* Three round star boxes */
   .hero-proof .proof-badge {
-    width: 48px;
-    height: 48px;
-
-    min-width: 48px;
-    min-height: 48px;
 
     box-sizing: border-box;
 
