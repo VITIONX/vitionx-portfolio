@@ -2089,10 +2089,33 @@ color: #000000;
   }
 
   .hero-buttons {
-    flex-direction: column;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: nowrap;
+}
 
-    gap: 15px;
-  }
+.primary-button {
+  white-space: nowrap;
+  padding: 13px 18px;
+  font-size: 10px;
+}
+
+.secondary-button {
+  white-space: nowrap;
+  gap: 7px;
+  font-size: 10px;
+}
+
+.play-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  font-size: 8px;
+}
 
   .hero-proof {
     margin-top: 45px;
@@ -2702,8 +2725,6 @@ letter-spacing: 1.5px;
 
     font-size: 14px;
   }
-}
-
 }
 
 }
