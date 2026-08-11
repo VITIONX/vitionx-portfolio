@@ -2460,7 +2460,7 @@ Desktop styles remain untouched
     max-height: 38px;
 
     margin: 0;
-    padding: 0;
+    padding: -20;
 
     box-sizing: border-box;
 
