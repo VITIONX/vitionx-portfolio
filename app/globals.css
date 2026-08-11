@@ -2649,7 +2649,7 @@ letter-spacing: 1.5px;
 
   /* 700+ */
   .hero-proof .proof-number {
-    font-size: 44px;
+    font-size: 30px;
     line-height: 0.85;
 
     white-space: nowrap;
@@ -2688,11 +2688,11 @@ letter-spacing: 1.5px;
 
   /* 3 round stars */
   .hero-proof .proof-badge {
-    width: 40px;
-    height: 40px;
+    width: 30x;
+    height: 30px;
 
-    min-width: 40px;
-    min-height: 40px;
+    min-width: 30px;
+    min-height: 30px;
 
     display: flex;
     align-items: center;
