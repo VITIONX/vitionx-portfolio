@@ -2504,68 +2504,98 @@ letter-spacing: 1.5px;
 @media (max-width: 768px) {
 
   .hero-proof {
-    width: 100%;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+  margin-top: 45px;
+  width: 100%;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: visible;
+}
 
-    gap: 14px;
-    padding: 0 12px;
+.proof-number {
+  flex: 0 0 auto;
+  font-size: 42px;
+  line-height: 1;
+  white-space: nowrap;
+}
 
-    box-sizing: border-box;
-    overflow: visible;
+.proof-text {
+  flex: 0 0 auto;
+  min-width: 105px;
+  max-width: 120px;
+  text-align: left;
+}
+
+.proof-text strong {
+  display: block;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.proof-text span {
+  display: block;
+  font-size: 9px;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+.proof-line {
+  display: none;
+}
+
+.proof-badge {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  font-size: 12px;
+}
+
+/* Put the 3 badges on their own clean row */
+.proof-badge:first-of-type {
+  margin-left: 0;
+}
+
+.proof-badge {
+  margin-top: 8px;
+}
+
+@media (max-width: 400px) {
+  .hero-proof {
+    max-width: 340px;
+    gap: 8px;
   }
 
   .proof-number {
-    flex: 0 1 auto;
-    min-width: 0;
-
-    font-size: clamp(52px, 15vw, 82px);
-    line-height: 0.9;
-
-    white-space: nowrap;
+    font-size: 38px;
   }
 
   .proof-text {
-    flex: 0 1 auto;
-    min-width: 0;
-
-    text-align: left;
+    min-width: 100px;
+    max-width: 110px;
   }
 
   .proof-text strong {
-    white-space: nowrap;
-    font-size: clamp(20px, 5vw, 28px);
+    font-size: 10px;
   }
 
   .proof-text span {
-    display: block;
-    white-space: normal;
-    font-size: 14px;
-    line-height: 1.35;
-  }
-
-  .proof-line {
-    flex: 0 0 1px;
-    height: 80px;
+    font-size: 8px;
   }
 
   .proof-badge {
-    flex: 0 0 auto;
-
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-sizing: border-box;
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
   }
+}
 
 }
 
