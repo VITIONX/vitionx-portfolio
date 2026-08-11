@@ -1434,6 +1434,317 @@ PORTFOLIO
 }
 
 /* =========================================================
+   CLIENT REVIEWS
+========================================================= */
+
+.reviews-section {
+  width: 100%;
+  padding: 140px 4vw 150px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.reviews-section .section-label {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.reviews-section h2 {
+  margin-bottom: 70px;
+  text-align: center;
+  font-family: "Mandalore", sans-serif;
+  font-size: 64px;
+  line-height: 1.05;
+  font-weight: 400;
+}
+
+/* =========================================================
+   REVIEW CAROUSEL
+========================================================= */
+
+.reviews-carousel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+
+/* =========================================================
+   REVIEW IMAGE AREA
+========================================================= */
+
+.review-image-wrapper {
+  position: relative;
+
+  width: min(88vw, 1500px);
+  height: min(70vh, 760px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 132, 48, 0.55);
+
+  background: #111;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 132, 48, 0.08),
+    0 20px 70px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   REVIEW IMAGES
+========================================================= */
+
+.review-image {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+
+  padding: 14px;
+
+  transition:
+    transform 0.9s cubic-bezier(0.77, 0, 0.18, 1),
+    opacity 0.9s ease;
+}
+
+
+/* Current review */
+
+.review-image-new {
+  z-index: 2;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
+/* Previous review */
+
+.review-image-old {
+  z-index: 1;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
+/* =========================================================
+   SLIDE TRANSITION
+   Old review → LEFT
+   New review → FROM RIGHT
+========================================================= */
+
+.review-image-old.fade-out {
+  transform: translateX(-100%);
+  opacity: 1;
+}
+
+.review-image-new.fade-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
+/* Initial position of incoming review */
+
+.review-image-new {
+  transform: translateX(100%);
+}
+
+.review-image-new.fade-in {
+  transform: translateX(0);
+}
+
+
+/* =========================================================
+   ARROWS
+========================================================= */
+
+.review-arrow {
+  flex: 0 0 auto;
+
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 132, 48, 0.65);
+
+  background: transparent;
+
+  color: #fff;
+
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.review-arrow:hover {
+  background: #ff8430;
+  border-color: #ff8430;
+  color: #000;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   COUNTER
+========================================================= */
+
+.review-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  margin-top: 30px;
+
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+.review-counter-line {
+  width: 70px;
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.3);
+}
+
+
+/* =========================================================
+   REVIEW DOTS
+========================================================= */
+
+.review-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.review-dot {
+  width: 7px;
+  height: 7px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  cursor: pointer;
+
+  transition:
+    width 0.3s ease,
+    background 0.3s ease;
+}
+
+.review-dot.active {
+  width: 24px;
+  border-radius: 10px;
+
+  background: #ff8430;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .reviews-section {
+    padding: 110px 3vw 120px;
+  }
+
+  .review-image-wrapper {
+    width: min(84vw, 1100px);
+    height: 62vh;
+  }
+
+  .reviews-carousel {
+    gap: 18px;
+  }
+
+  .review-arrow {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .reviews-section {
+    padding: 90px 16px 100px;
+  }
+
+  .reviews-section h2 {
+    margin-bottom: 40px;
+  }
+
+  .reviews-carousel {
+    gap: 10px;
+  }
+
+  .review-image-wrapper {
+    width: calc(100vw - 100px);
+    height: 65vh;
+
+    min-height: 420px;
+
+    border-width: 1px;
+  }
+
+  .review-image {
+    padding: 8px;
+  }
+
+  .review-arrow {
+    width: 42px;
+    height: 42px;
+
+    font-size: 18px;
+  }
+
+  .review-counter {
+    margin-top: 22px;
+  }
+
+  .review-dots {
+    margin-top: 14px;
+  }
+}
+
+/* =========================================================
 CONTACT
 ========================================================= */
 
@@ -2694,6 +3005,116 @@ Desktop styles remain untouched
     font-size: 25px;
     font-weight: 400;
   }
+
+  /* =========================================================
+CLIENT REVIEWS
+========================================================= */
+
+.reviews-section {
+  width: calc(100% - 30px);
+
+  margin-top: 40px;
+
+  padding: 90px 0;
+}
+
+.reviews-section h2 {
+  font-size: clamp(48px, 13vw, 68px);
+
+  line-height: 0.92;
+}
+
+.reviews-carousel {
+  margin-top: 45px;
+
+  gap: 10px;
+
+  width: 100%;
+}
+
+.review-image-wrapper {
+  width: calc(100% - 80px);
+
+  max-width: none;
+
+  border-radius: 4px;
+}
+
+.review-arrow {
+  width: 34px;
+
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  font-size: 15px;
+}
+
+.review-counter {
+  margin-top: 20px;
+
+  font-size: 9px;
+}
+
+.review-counter-line {
+  width: 25px;
+}
+
+.review-dots {
+  margin-top: 15px;
+
+  gap: 7px;
+}
+
+.review-dot {
+  width: 5px;
+
+  height: 5px;
+}
+
+.reviews-section {
+  width: calc(100% - 24px);
+
+  padding: 75px 0;
+}
+
+.reviews-carousel {
+  gap: 6px;
+}
+
+.review-image-wrapper {
+  width: calc(100% - 68px);
+}
+
+.review-arrow {
+  width: 30px;
+
+  height: 30px;
+
+  flex-basis: 30px;
+
+  font-size: 13px;
+}
+
+.review-image {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  animation: reviewSoftChange 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes reviewSoftChange {
+  0% {
+    opacity: 0;
+    transform: translateY(5px) scale(0.995);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 
   /* =========================================================
   CONTACT
