@@ -7,7 +7,7 @@
 }
 
 /* =========================================================
-   ROOT
+ROOT
 ========================================================= */
 
 :root {
@@ -26,7 +26,7 @@
 }
 
 /* =========================================================
-   RESET
+RESET
 ========================================================= */
 
 * {
@@ -101,7 +101,7 @@ img {
 }
 
 /* =========================================================
-   MAIN SITE
+MAIN SITE
 ========================================================= */
 
 .site {
@@ -116,7 +116,7 @@ img {
 }
 
 /* =========================================================
-   GLOBAL ABSTRACT BACKGROUND
+GLOBAL ABSTRACT BACKGROUND
 ========================================================= */
 
 .site::before {
@@ -171,7 +171,7 @@ img {
 }
 
 /* =========================================================
-   HEADER
+HEADER
 ========================================================= */
 
 .header {
@@ -186,7 +186,7 @@ img {
 }
 
 /* =========================================================
-   LOGO
+LOGO
 ========================================================= */
 
 .logo {
@@ -212,7 +212,7 @@ img {
 }
 
 /* =========================================================
-   NAVIGATION
+NAVIGATION
 ========================================================= */
 
 .nav {
@@ -237,8 +237,8 @@ img {
 }
 
 /* =========================================================
-   NAV HOVER LINE
-   LEFT → RIGHT
+NAV HOVER LINE
+LEFT → RIGHT
 ========================================================= */
 
 .nav a::after {
@@ -267,7 +267,7 @@ img {
 }
 
 /* =========================================================
-   HEADER CTA
+HEADER CTA
 ========================================================= */
 
 .header-cta {
@@ -304,7 +304,64 @@ img {
 }
 
 /* =========================================================
-   HERO
+SOCIAL MEDIA — HEADER
+Added only for social links
+========================================================= */
+
+.header-socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+}
+
+.header-social-link {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #d5d5d5;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.header-social-link svg {
+  width: 14px;
+  height: 14px;
+
+  display: block;
+
+  fill: currentColor;
+}
+
+.header-social-link.instagram svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.header-social-link:hover {
+  color: var(--orange);
+
+  border-color: var(--orange);
+
+  background: rgba(242, 111, 33, 0.08);
+
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+HERO
 ========================================================= */
 
 .hero {
@@ -322,7 +379,7 @@ img {
 }
 
 /* =========================================================
-   HERO CONTENT
+HERO CONTENT
 ========================================================= */
 
 .hero-content {
@@ -355,14 +412,12 @@ img {
 }
 
 /* =========================================================
-   HERO TITLE
+HERO TITLE
 ========================================================= */
 
 .hero-title {
   font-family: "Mandalore", sans-serif;
 
-  /* IMPORTANT:
-     Prevent synthetic/double bold */
   font-weight: 400;
 
   font-size: clamp(65px, 6.8vw, 112px);
@@ -395,7 +450,7 @@ img {
 }
 
 /* =========================================================
-   HERO BUTTONS
+HERO BUTTONS
 ========================================================= */
 
 .hero-buttons {
@@ -505,7 +560,6 @@ HERO PROOF — LARGE
   gap: 22px;
 }
 
-/* 700+ */
 .proof-number {
   font-family: "Mandalore", sans-serif;
 
@@ -517,7 +571,6 @@ HERO PROOF — LARGE
   color: var(--white);
 }
 
-/* PROJECTS + description */
 .proof-text {
   display: flex;
 
@@ -542,7 +595,6 @@ HERO PROOF — LARGE
   line-height: 1.3;
 }
 
-/* Vertical divider */
 .proof-line {
   height: 60px;
 
@@ -553,7 +605,6 @@ HERO PROOF — LARGE
   margin: 0 8px;
 }
 
-/* Circle badges */
 .proof-badge {
   width: 48px;
   height: 48px;
@@ -576,7 +627,7 @@ HERO PROOF — LARGE
 }
 
 /* =========================================================
-   HERO VISUAL
+HERO VISUAL
 ========================================================= */
 
 .hero-visual {
@@ -594,7 +645,7 @@ HERO PROOF — LARGE
 }
 
 /* =========================================================
-   HERO IMAGE — BIG
+HERO IMAGE — BIG
 ========================================================= */
 
 .hero-image {
@@ -620,7 +671,8 @@ HERO PROOF — LARGE
 
   transition: transform 0.4s ease;
 
-    animation: heroFloat 6s ease-in-out infinite;
+  animation: heroFloat 6s ease-in-out infinite;
+
   transform-origin: center center;
   will-change: transform;
 }
@@ -637,11 +689,10 @@ HERO PROOF — LARGE
   100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
-
 }
 
 /* =========================================================
-   PORTRAIT BACKDROP
+PORTRAIT BACKDROP
 ========================================================= */
 
 .portrait-backdrop {
@@ -667,7 +718,7 @@ HERO PROOF — LARGE
 }
 
 /* =========================================================
-   GEOMETRIC FRAME
+GEOMETRIC FRAME
 ========================================================= */
 
 .geometric-frame {
@@ -735,7 +786,7 @@ HERO PROOF — LARGE
 }
 
 /* =========================================================
-   HERO GLOW
+HERO GLOW
 ========================================================= */
 
 .hero-glow {
@@ -783,22 +834,13 @@ HERO PROOF — LARGE
 
   border-radius: 50%;
 
-  background: radial-gradient(
-    circle,
-    rgba(242, 111, 33, 0.15) 0%,
-    rgba(242, 111, 33, 0.06) 40%,
-    transparent 72%
-  );
+  background: rgba(242, 111, 33, 0.50);
 
-  filter: blur(20px);
+  filter: blur(100px);
 
   z-index: -1;
 
   pointer-events: none;
-
-  background: rgba(242, 111, 33, 0.50);
-filter: blur(100px);
-
 }
 
 /* =========================================================
@@ -806,37 +848,34 @@ HIRE ME BUTTON
 ========================================================= */
 
 .hero-orbit {
-position: absolute;
+  position: absolute;
 
-right: -5px;
-bottom: 115px;
+  right: -5px;
+  bottom: 115px;
 
-width: 125px;
-height: 125px;
-border-radius: 50%;
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
 
-z-index: 8;
+  z-index: 8;
 
-display: flex;
-align-items: center;
-justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-background: #44B65E;
+  background: #44B65E;
 
-box-shadow:
-0 0 0 1px rgba(242, 111, 33, 0.08),
-0 0 25px rgba(242, 111, 33, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(242, 111, 33, 0.08),
+    0 0 25px rgba(242, 111, 33, 0.08);
 
-animation: hireMeRotate 12s linear infinite;
+  animation: hireMeRotate 12s linear infinite;
 
-transition:
-transform 0.3s ease,
-background 0.3s ease,
-box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
 }
-
-
-/* HIRE ME TEXT */
 
 .hero-orbit span {
   font-family: "Mandalore", sans-serif;
@@ -854,39 +893,33 @@ box-shadow 0.3s ease;
   transform: rotate(-20deg);
 }
 
-
-/* SLOW ROTATION */
-
 @keyframes hireMeRotate {
-from {
-transform: rotate(0deg);
-}
+  from {
+    transform: rotate(0deg);
+  }
 
-to {
-transform: rotate(360deg);
+  to {
+    transform: rotate(360deg);
+  }
 }
-}
-
-
-/* HOVER */
 
 .hero-orbit:hover {
-animation-play-state: paused;
+  animation-play-state: paused;
 
-background: var(--orange);
+  background: var(--orange);
 
-box-shadow:
-0 0 30px rgba(242, 111, 33, 0.35);
+  box-shadow:
+    0 0 30px rgba(242, 111, 33, 0.35);
 
-transform: scale(1.08);
+  transform: scale(1.08);
 }
 
 .hero-orbit:hover span {
-color: #000000;
+  color: #000000;
 }
 
 /* =========================================================
-   STATS
+STATS
 ========================================================= */
 
 .stats-section {
@@ -914,8 +947,6 @@ color: #000000;
   margin-bottom: 100px;
 }
 
-/* Individual stat */
-
 .stat {
   min-height: 150px;
 
@@ -931,8 +962,6 @@ color: #000000;
   border-right: none;
 }
 
-/* Mandalore — large normal weight */
-
 .stat strong {
   font-family: "Mandalore", sans-serif;
 
@@ -946,8 +975,6 @@ color: #000000;
   letter-spacing: -1px;
 }
 
-/* Label */
-
 .stat span {
   color: #ffffff;
 
@@ -959,7 +986,7 @@ color: #000000;
 }
 
 /* =========================================================
-   GENERAL SECTIONS
+GENERAL SECTIONS
 ========================================================= */
 
 .section {
@@ -981,24 +1008,11 @@ color: #000000;
   margin-bottom: 15px;
 }
 
-/* =========================================================
-   MAIN SECTION HEADINGS
-========================================================= */
-
 .section h2 {
   font-family: "Mandalore", sans-serif;
 
-  /*
-    IMPORTANT:
-    H2 default is bold in browser.
-    Mandalore only has weight 400.
-    This prevents synthetic double-bold.
-  */
   font-weight: 400;
 
-  /*
-    Larger and cleaner section heading
-  */
   font-size: clamp(58px, 6vw, 88px);
 
   line-height: 0.92;
@@ -1009,7 +1023,7 @@ color: #000000;
 }
 
 /* =========================================================
-   ABOUT
+ABOUT
 ========================================================= */
 
 .about-section {
@@ -1033,10 +1047,6 @@ color: #000000;
   align-items: start;
 }
 
-/* =========================================================
-   ABOUT HEADING
-========================================================= */
-
 .about-heading h2 {
   margin: 0;
 
@@ -1048,12 +1058,6 @@ color: #000000;
 
   line-height: 0.95;
 }
-
-/*
-  Your current JSX has the About h2
-  directly inside .about-details.
-  So we explicitly style it here.
-*/
 
 .about-details h2 {
   margin: 0;
@@ -1104,7 +1108,7 @@ color: #000000;
 }
 
 /* =========================================================
-   ABOUT MEDIA
+ABOUT MEDIA
 ========================================================= */
 
 .about-media {
@@ -1249,7 +1253,7 @@ color: #000000;
 }
 
 /* =========================================================
-   SERVICES
+SERVICES
 ========================================================= */
 
 .service-grid {
@@ -1300,22 +1304,11 @@ color: #000000;
   font-size: 22px;
 }
 
-/* =========================================================
-   SERVICE TITLE
-========================================================= */
-
 .service-card h3 {
   font-family: "Mandalore", sans-serif;
 
-  /*
-    IMPORTANT:
-    Remove browser's default bold.
-  */
   font-weight: 400;
 
-  /*
-    Larger than before but still balanced.
-  */
   font-size: 34px;
 
   line-height: 0.95;
@@ -1348,7 +1341,7 @@ color: #000000;
 }
 
 /* =========================================================
-   PORTFOLIO
+PORTFOLIO
 ========================================================= */
 
 .portfolio-grid {
@@ -1363,11 +1356,7 @@ color: #000000;
 
 .portfolio-card {
   overflow: hidden;
-}
-
-.portfolio-card {
   position: relative;
-  overflow: hidden;
 }
 
 .portfolio-image {
@@ -1416,10 +1405,6 @@ color: #000000;
   transform: scale(1.05);
 }
 
-.portfolio-card:hover .portfolio-image img {
-  transform: scale(1.05);
-}
-
 .portfolio-info {
   padding-top: 15px;
 }
@@ -1431,10 +1416,6 @@ color: #000000;
 
   font-weight: 600;
 }
-
-/* =========================================================
-   PORTFOLIO TITLE
-========================================================= */
 
 .portfolio-card h3 {
   font-family: "Mandalore", sans-serif;
@@ -1453,7 +1434,7 @@ color: #000000;
 }
 
 /* =========================================================
-   CONTACT
+CONTACT
 ========================================================= */
 
 .contact-section {
@@ -1482,10 +1463,6 @@ color: #000000;
 
   background: #292929;
 }
-
-/* =========================================================
-   CONTACT HEADING
-========================================================= */
 
 .contact-section h2 {
   font-family: "Mandalore", sans-serif;
@@ -1564,7 +1541,69 @@ color: #000000;
 }
 
 /* =========================================================
-   FOOTER
+SOCIAL MEDIA — CONTACT
+Added only for social links
+========================================================= */
+
+.contact-socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 35px;
+}
+
+.contact-social-link {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+
+  background: transparent;
+
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.contact-social-link svg {
+  width: 18px;
+  height: 18px;
+
+  display: block;
+
+  fill: currentColor;
+}
+
+.contact-social-link.instagram svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.contact-social-link:hover {
+  color: var(--orange);
+
+  border-color: var(--orange);
+
+  background: rgba(242, 111, 33, 0.08);
+
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+FOOTER
 ========================================================= */
 
 .footer {
@@ -1582,7 +1621,6 @@ color: #000000;
   background: transparent;
 }
 
-/* FULL-WIDTH ORANGE BACKGROUND */
 .footer::before {
   content: "";
 
@@ -1601,7 +1639,6 @@ color: #000000;
   z-index: -1;
 }
 
-/* FOOTER TEXT */
 .footer p,
 .footer a {
   color: #000000;
@@ -1609,7 +1646,6 @@ color: #000000;
   font-size: 10px;
 }
 
-/* BACK TO TOP */
 .footer a {
   transition: color 0.3s ease;
 }
@@ -1619,7 +1655,7 @@ color: #000000;
 }
 
 /* =========================================================
-   VIDEO MODAL
+VIDEO MODAL
 ========================================================= */
 
 .video-modal {
@@ -1736,7 +1772,7 @@ color: #000000;
 }
 
 /* =========================================================
-   ANIMATIONS
+ANIMATIONS
 ========================================================= */
 
 @keyframes videoModalFade {
@@ -1764,7 +1800,7 @@ color: #000000;
 }
 
 /* =========================================================
-   LARGE DESKTOP
+LARGE DESKTOP
 ========================================================= */
 
 @media (min-width: 1600px) {
@@ -1833,7 +1869,7 @@ color: #000000;
 }
 
 /* =========================================================
-   TABLET
+TABLET
 ========================================================= */
 
 @media (max-width: 1100px) {
@@ -1905,10 +1941,26 @@ color: #000000;
 
     font-weight: 400;
   }
+
+  /* Keep header socials compact on smaller desktop/tablet */
+  .header-socials {
+    gap: 6px;
+    margin-left: 7px;
+  }
+
+  .header-social-link {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header-social-link svg {
+    width: 13px;
+    height: 13px;
+  }
 }
 
 /* =========================================================
-   TABLET / SMALL LAPTOP
+TABLET / SMALL LAPTOP
 ========================================================= */
 
 @media (max-width: 900px) {
@@ -2045,8 +2097,16 @@ color: #000000;
     font-size: 34px;
   }
 
-  .portfolio-card h3 {
-    font-size: 24px;
+  /*
+  Header social icons remain visible on tablet.
+  */
+  .header {
+    gap: 15px;
+  }
+
+  .header-socials {
+    gap: 6px;
+    margin-left: 6px;
   }
 }
 
@@ -2056,11 +2116,6 @@ Desktop styles remain untouched
 ========================================================= */
 
 @media (max-width: 768px) {
-
-  /* =========================================================
-  GLOBAL MOBILE
-  ========================================================= */
-
   html,
   body {
     width: 100%;
@@ -2081,9 +2136,44 @@ Desktop styles remain untouched
   HEADER
   ========================================================= */
 
+  .header {
+    height: auto;
+    min-height: 75px;
+
+    padding: 12px 0;
+
+    align-items: center;
+  }
+
   .header-cta {
     padding: 9px 14px;
     font-size: 9px;
+  }
+
+  /*
+  Mobile header socials:
+  They stay directly after the Let's Talk button
+  and automatically remain visible on mobile.
+  */
+
+  .header-socials {
+    display: flex;
+
+    gap: 5px;
+
+    margin-left: 5px;
+  }
+
+  .header-social-link {
+    width: 27px;
+    height: 27px;
+
+    flex-shrink: 0;
+  }
+
+  .header-social-link svg {
+    width: 12px;
+    height: 12px;
   }
 
   /* =========================================================
@@ -2323,7 +2413,6 @@ Desktop styles remain untouched
 
   /* =========================================================
   HERO PROOF
-  700+ + PROJECTS + COMPLETED + 3 STARS
   ========================================================= */
 
   .hero-proof {
@@ -2338,9 +2427,6 @@ Desktop styles remain untouched
 
     display: grid;
 
-    /*
-      700+ | PROJECTS TEXT | divider | star | star | star
-    */
     grid-template-columns:
       58px
       minmax(0, 1fr)
@@ -2358,10 +2444,6 @@ Desktop styles remain untouched
     overflow: visible;
   }
 
-  /* =========================================================
-  700+
-  ========================================================= */
-
   .hero-proof .proof-number {
     width: auto;
     min-width: 0;
@@ -2375,10 +2457,6 @@ Desktop styles remain untouched
 
     text-align: left;
   }
-
-  /* =========================================================
-  PROJECTS + COMPLETED SUCCESSFULLY
-  ========================================================= */
 
   .hero-proof .proof-text {
     width: 100%;
@@ -2430,24 +2508,16 @@ Desktop styles remain untouched
     white-space: nowrap;
   }
 
-  /* =========================================================
-  DIVIDER
-  ========================================================= */
-
   .hero-proof .proof-line {
     display: block;
 
     width: 1px;
     height: 42px;
 
-    margin: 20;
+    margin: 0;
 
     background: #454545;
   }
-
-  /* =========================================================
-  THREE ROUND STAR BOXES
-  ========================================================= */
 
   .hero-proof .proof-badge {
     width: 38px;
@@ -2640,6 +2710,23 @@ Desktop styles remain untouched
     gap: 18px;
   }
 
+  /* Contact social icons remain horizontal on mobile */
+
+  .contact-socials {
+    gap: 9px;
+    margin-top: 30px;
+  }
+
+  .contact-social-link {
+    width: 40px;
+    height: 40px;
+  }
+
+  .contact-social-link svg {
+    width: 17px;
+    height: 17px;
+  }
+
   /* =========================================================
   FOOTER
   ========================================================= */
@@ -2670,13 +2757,44 @@ Desktop styles remain untouched
   }
 }
 
-
 /* =========================================================
 SMALL PHONES
 Extra adjustment for narrow screens
 ========================================================= */
 
 @media (max-width: 400px) {
+  /*
+  Keep top social icons compact so the
+  logo + Let's Talk + social icons remain usable.
+  */
+
+  .header {
+    width: calc(100% - 20px);
+  }
+
+  .logo {
+    width: 100px;
+  }
+
+  .header-cta {
+    padding: 8px 11px;
+    font-size: 8px;
+  }
+
+  .header-socials {
+    gap: 4px;
+    margin-left: 4px;
+  }
+
+  .header-social-link {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-social-link svg {
+    width: 11px;
+    height: 11px;
+  }
 
   .hero-buttons {
     max-width: 340px;
@@ -2739,5 +2857,10 @@ Extra adjustment for narrow screens
     max-height: 34px;
 
     font-size: 11px;
+  }
+
+  .contact-social-link {
+    width: 38px;
+    height: 38px;
   }
 }
