@@ -1234,35 +1234,86 @@ export default function Home() {
               <span>↗</span>
             </a>
           </div>
+      {/* =================================================
+          SOCIAL MEDIA + FREELANCE PROFILES — CONTACT
+      ================================================= */}
 
-          {/* =================================================
-              SOCIAL MEDIA — CONTACT
-          ================================================= */}
+      <div
+        className="contact-socials"
+        aria-label="VITIONX social media and freelance profile links"
+      >
 
-          <div
-            className="contact-socials"
-            aria-label="VITIONX social media links"
+        {/* =================================================
+            FREELANCE PROFILES
+        ================================================= */}
+
+        <a
+          href="YOUR_FIVERR_LINK"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="freelance-badge"
+          aria-label="Visit VITIONX on Fiverr"
+          title="Fiverr"
+        >
+          <img
+            src="/icons/fiverr.svg"
+            alt="Fiverr"
+          />
+        </a>
+
+        <a
+          href="YOUR_UPWORK_LINK"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="freelance-badge"
+          aria-label="Visit VITIONX on Upwork"
+          title="Upwork"
+        >
+          <img
+            src="/icons/upwork.svg"
+            alt="Upwork"
+          />
+        </a>
+
+        <a
+          href="YOUR_FREELANCER_LINK"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="freelance-badge"
+          aria-label="Visit VITIONX on Freelancer"
+          title="Freelancer"
+        >
+          <img
+            src="/icons/freelancer.svg"
+            alt="Freelancer"
+          />
+        </a>
+
+        {/* =================================================
+            SOCIAL MEDIA
+        ================================================= */}
+
+        {socialLinks.map((social) => (
+          <a
+            key={social.type}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`contact-social-link ${
+              social.type === "instagram"
+                ? "instagram"
+                : ""
+            }`}
+            aria-label={`Visit VITIONX on ${social.label}`}
+            title={social.label}
           >
-            {socialLinks.map((social) => (
-              <a
-                key={social.type}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`contact-social-link ${
-                  social.type === "instagram"
-                    ? "instagram"
-                    : ""
-                }`}
-                aria-label={`Visit VITIONX on ${social.label}`}
-                title={social.label}
-              >
-                <SocialIcon type={social.type} />
-              </a>
-            ))}
-          </div>
-        </section>
+            <SocialIcon type={social.type} />
+          </a>
+        ))}
 
+      </div>
+    </section>
+    
         {/* =========================
             FOOTER
         ========================= */}
