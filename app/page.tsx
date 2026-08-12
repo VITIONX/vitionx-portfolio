@@ -342,87 +342,119 @@ export default function Home() {
         </div>
       </header>
 
-      {/* =========================
-          HERO
-      ========================= */}
+{/* =========================
+    HERO
+========================= */}
 
-      <main className="site">
-        <section
-          id="home"
-          className="hero"
+<main className="site">
+  <section
+    id="home"
+    className="hero"
+  >
+    <div className="hero-content">
+      <p className="hero-eyebrow">
+        HELLO, I&apos;M{" "}
+        <span>SAKIB</span>
+      </p>
+
+      <h1 className="hero-title">
+        strategic
+        <br />
+        brand{" "}
+        <span>designer</span>
+      </h1>
+
+      <p className="hero-description">
+        I create strategic, memorable and
+        professional visual identities that
+        help brands stand out and grow with
+        purpose.
+      </p>
+
+      <div className="hero-buttons">
+        <a
+          href="#portfolio"
+          className="primary-button"
         >
-          <div className="hero-content">
-            <p className="hero-eyebrow">
-              HELLO, I&apos;M{" "}
-              <span>SAKIB</span>
-            </p>
+          VIEW MY WORK{" "}
+          <span>→</span>
+        </a>
 
-            <h1 className="hero-title">
-              strategic
-              <br />
-              brand{" "}
-              <span>designer</span>
-            </h1>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={() =>
+            setShowIntro(true)
+          }
+          aria-label="Watch Sakib introduction video"
+        >
+          <span className="play-icon">
+            ▶
+          </span>
+          WATCH INTRO
+        </button>
+      </div>
 
-            <p className="hero-description">
-              I create strategic, memorable and
-              professional visual identities that
-              help brands stand out and grow with
-              purpose.
-            </p>
+      <div className="hero-proof">
+        <div className="proof-number">
+          700+
+        </div>
 
-            <div className="hero-buttons">
-              <a
-                href="#portfolio"
-                className="primary-button"
-              >
-                VIEW MY WORK{" "}
-                <span>→</span>
-              </a>
+        <div className="proof-text">
+          <strong>PROJECTS</strong>
+          <span>
+            Completed Successfully
+          </span>
+        </div>
 
-              <button
-                type="button"
-                className="secondary-button"
-                onClick={() =>
-                  setShowIntro(true)
-                }
-                aria-label="Watch Sakib introduction video"
-              >
-                <span className="play-icon">
-                  ▶
-                </span>
-                WATCH INTRO
-              </button>
-            </div>
+        <div className="proof-line" />
 
-            <div className="hero-proof">
-              <div className="proof-number">
-                700+
-              </div>
+<a
+  href="https://www.fiverr.com/s/Q7lmbPR"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="proof-badge freelance-badge"
+  aria-label="Visit my Fiverr profile"
+  title="View my Fiverr profile"
+>
+  <img
+    src="/icons/fiverr.svg"
+    alt=""
+    className="freelance-logo"
+  />
+</a>
 
-              <div className="proof-text">
-                <strong>PROJECTS</strong>
-                <span>
-                  Completed Successfully
-                </span>
-              </div>
+<a
+  href="https://www.upwork.com/freelancers/~01ef8afa2de340406e?mp_source=share"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="proof-badge freelance-badge"
+  aria-label="Visit my Upwork profile"
+  title="View my Upwork profile"
+>
+  <img
+    src="/icons/upwork.svg"
+    alt=""
+    className="freelance-logo"
+  />
+</a>
 
-              <div className="proof-line" />
-
-              <div className="proof-badge">
-                ✦
-              </div>
-
-              <div className="proof-badge">
-                ✦
-              </div>
-
-              <div className="proof-badge">
-                ✦
-              </div>
-            </div>
-          </div>
-
+<a
+  href="https://www.freelancer.com/u/darkstorybangla8?sb=t"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="proof-badge freelance-badge"
+  aria-label="Visit my Freelancer.com profile"
+  title="View my Freelancer.com profile"
+>
+  <img
+    src="/icons/freelancer.svg"
+    alt=""
+    className="freelance-logo"
+  />
+</a>
+      </div>
+    </div>
           {/* =========================
               HERO VISUAL
           ========================= */}
