@@ -95,7 +95,11 @@ const TRANSITION_DURATION = 900;
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState(false);
-
+  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState<
+  "idle" | "success" | "error"
+>("idle");
   /*
    * =========================================================
    * CLIENT REVIEWS
@@ -201,7 +205,7 @@ export default function Home() {
    */
 
   useEffect(() => {
-    if (showIntro) {
+    if (showIntro || showProjectForm) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -210,7 +214,7 @@ export default function Home() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [showIntro]);
+  }, [showIntro, showProjectForm]);
 
   /*
    * =========================================================
@@ -314,12 +318,16 @@ export default function Home() {
             alignItems: "center",
           }}
         >
-          <a
-            href="#contact"
+          <button
+            type="button"
             className="header-cta"
+            onClick={() => {
+              setFormStatus("idle");
+              setShowProjectForm(true);
+            }}
           >
             Let's Talk <span>→</span>
-          </a>
+          </button>
 
           <div
             className="header-socials"
@@ -477,16 +485,21 @@ export default function Home() {
               className="hero-image"
             />
 
-            <a
-              href="#contact"
+            <button
+              type="button"
               className="hero-orbit"
+              onClick={() => {
+                setFormStatus("idle");
+                setShowProjectForm(true);
+              }}
+              aria-label="Hire Sakib for a project"
             >
               <span>
                 HIRE
                 <br />
                 ME
               </span>
-            </a>
+            </button>
           </div>
         </section>
 
@@ -1226,13 +1239,17 @@ export default function Home() {
               ahmedsakib857@gmail.com
             </a>
 
-            <a
-              href="mailto:ahmedsakib857@gmail.com"
+            <button
+              type="button"
               className="contact-button"
+              onClick={() => {
+                setFormStatus("idle");
+                setShowProjectForm(true);
+              }}
             >
               Start a Project
               <span>↗</span>
-            </a>
+            </button>
           </div>
       
 {/* =================================================
@@ -1330,6 +1347,321 @@ export default function Home() {
             Back to top ↑
           </a>
         </footer>
+
+        {/* =================================================
+            PROJECT INQUIRY FORM MODAL
+        ================================================= */}
+
+        {showProjectForm && (
+          <div
+            className="project-form-modal"
+            onClick={() => setShowProjectForm(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Start a project"
+          >
+            <div
+              className="project-form-container"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="project-form-close"
+                onClick={() => setShowProjectForm(false)}
+                aria-label="Close project form"
+              >
+                ×
+              </button>
+
+              <div className="project-form-header">
+                <p className="section-label">
+                  START A PROJECT
+                </p>
+
+                <h2>
+                  Let's create
+                  <br />
+                  something great.
+                </h2>
+
+                <p>
+                  Tell me a little about your project and
+                  I'll get back to you as soon as possible.
+                </p>
+              </div>
+
+              <form
+                className="project-form"
+                onSubmit={async (e) => {
+                  e.preventDefault();
+
+                  setIsSubmitting(true);
+                  setFormStatus("idle");
+
+                  const form = e.currentTarget;
+                  const formData = new FormData(form);
+
+                  const data = {
+                    name: formData.get("name"),
+                    email: formData.get("email"),
+                    company: formData.get("company"),
+                    projectType: formData.get("projectType"),
+                    budget: formData.get("budget"),
+                    message: formData.get("message"),
+                  };
+
+                  try {
+                    const response = await fetch("/api/contact", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(data),
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok || !result.success) {
+                      throw new Error(
+                        result.message || "Something went wrong."
+                      );
+                    }
+
+                    setFormStatus("success");
+                    form.reset();
+                  } catch (error) {
+                    console.error("Project inquiry error:", error);
+                    setFormStatus("error");
+                  } finally {
+                    setIsSubmitting(false);
+                  }
+                }}
+              >
+                <div className="project-form-field">
+                  <label htmlFor="project-name">
+                    Your Name *
+                  </label>
+                  <input
+                    id="project-name"
+                    name="name"
+                    type="text"
+                    placeholder="Your full name"
+                    autoComplete="name"
+                    required
+                  />
+                </div>
+
+                <div className="project-form-field">
+                  <label htmlFor="project-email">
+                    Email Address *
+                  </label>
+                  <input
+                    id="project-email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    required
+                  />
+                </div>
+
+                <div className="project-form-field">
+                  <label htmlFor="project-company">
+                    Company / Brand
+                  </label>
+                  <input
+                    id="project-company"
+                    name="company"
+                    type="text"
+                    placeholder="Your company or brand name"
+                    autoComplete="organization"
+                  />
+                </div>
+
+                <div className="project-form-field">
+                  <label htmlFor="project-type">
+                    Project Type
+                  </label>
+                  <select
+                    id="project-type"
+                    name="projectType"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select project type
+                    </option>
+                    <option value="Brand Identity">
+                      Brand Identity
+                    </option>
+                    <option value="Logo Design">
+                      Logo Design
+                    </option>
+                    <option value="Graphic Design">
+                      Graphic Design
+                    </option>
+                    <option value="Social Media Design">
+                      Social Media Design
+                    </option>
+                    <option value="Presentation Design">
+                      Presentation Design
+                    </option>
+                    <option value="Product Image Editing">
+                      Product Image Editing
+                    </option>
+                    <option value="Video Editing">
+                      Video Editing
+                    </option>
+                    <option value="Other">
+                      Other
+                    </option>
+                  </select>
+                </div>
+
+                <div className="project-form-field">
+                  <label htmlFor="project-budget">
+                    Estimated Budget
+                  </label>
+                  <select
+                    id="project-budget"
+                    name="budget"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select your budget
+                    </option>
+                    <option value="Under $100">
+                      Under $100
+                    </option>
+                    <option value="$100 - $250">
+                      $100 – $250
+                    </option>
+                    <option value="$250 - $500">
+                      $250 – $500
+                    </option>
+                    <option value="$500 - $1000">
+                      $500 – $1,000
+                    </option>
+                    <option value="$1000+">
+                      $1,000+
+                    </option>
+                    <option value="Not sure yet">
+                      Not sure yet
+                    </option>
+                  </select>
+                </div>
+
+                <div className="project-form-field">
+                  <label htmlFor="project-message">
+                    Tell me about your project *
+                  </label>
+                  <textarea
+                    id="project-message"
+                    name="message"
+                    rows={6}
+                    placeholder="Tell me about your project, goals, timeline, and requirements..."
+                    required
+                  />
+                </div>
+
+                {formStatus === "success" && (
+                  <div className="project-form-success">
+                    ✓ Thanks! Your project inquiry has been sent
+                    successfully. I'll get back to you soon.
+                  </div>
+                )}
+
+                {formStatus === "error" && (
+                  <div className="project-form-error">
+                    Something went wrong. Please try again or
+                    contact me directly by email.
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="project-form-submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting
+                    ? "SENDING..."
+                    : "SEND PROJECT INQUIRY"}
+                  <span>↗</span>
+                </button>
+              </form>
+
+              <div className="project-form-links">
+                <p>
+                  Prefer to connect directly?
+                </p>
+
+                <div
+                  className="contact-socials"
+                  aria-label="VITIONX social media and freelance profile links"
+                >
+                  <a
+                    href="https://www.fiverr.com/s/Q7lmbPR"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="freelance-badge"
+                    aria-label="Visit VITIONX on Fiverr"
+                    title="Fiverr"
+                  >
+                    <img
+                      src="/icons/fiverr.svg"
+                      alt="Fiverr"
+                    />
+                  </a>
+
+                  <a
+                    href="https://www.upwork.com/freelancers/~01ef8afa2de340406e?mp_source=share"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="freelance-badge"
+                    aria-label="Visit VITIONX on Upwork"
+                    title="Upwork"
+                  >
+                    <img
+                      src="/icons/upwork.svg"
+                      alt="Upwork"
+                    />
+                  </a>
+
+                  <a
+                    href="https://www.freelancer.com/u/darkstorybangla8?sb=t"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="freelance-badge"
+                    aria-label="Visit VITIONX on Freelancer"
+                    title="Freelancer"
+                  >
+                    <img
+                      src="/icons/freelancer.svg"
+                      alt="Freelancer"
+                    />
+                  </a>
+
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.type}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`contact-social-link ${
+                        social.type === "instagram"
+                          ? "instagram"
+                          : ""
+                      }`}
+                      aria-label={`Visit VITIONX on ${social.label}`}
+                      title={social.label}
+                    >
+                      <SocialIcon type={social.type} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* =========================
             INTRO VIDEO MODAL
