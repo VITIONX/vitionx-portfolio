@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ProjectInquiry {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  projectType String?
+  budget      String?
+  message     String
+  createdAt   DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+}
