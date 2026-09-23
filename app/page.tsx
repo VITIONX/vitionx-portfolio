@@ -305,11 +305,11 @@ export default function Home() {
           className="nav"
           aria-label="Main navigation"
         >
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#services">Services</a>
-          <a href="#contact">Contact</a>
+<a href="/">Home</a>
+<a href="/about">About</a>
+<a href="/portfolio">Portfolio</a>
+<a href="/services">Services</a>
+<a href="/contact">Contact</a>
         </nav>
 
         <div
@@ -1219,17 +1219,12 @@ export default function Home() {
           </p>
 
           <h2>
-            Have a project
-            <br />
-            in mind?
+            Have a project in mind?
           </h2>
 
-          <p>
-            Let's create something
-            strategic, memorable and
-            professionally designed for your
-            brand.
-          </p>
+          <p className="contact-description">
+  Let's create something strategic, memorable and professionally designed for your brand.
+</p>
 
           <div className="contact-actions">
             <a

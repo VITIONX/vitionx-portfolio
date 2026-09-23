@@ -1776,7 +1776,7 @@ CONTACT
 
   border-radius: 50px;
 
-  color: var(--white);
+  color: #000000;
 
   font-size: 11px;
 
@@ -3749,5 +3749,145 @@ Extra adjustment for narrow screens
   .project-form-links .contact-social-link {
     width: 40px;
     height: 40px;
+  }
+}
+
+/* =========================================================
+   CONTACT FORM — FORCE 2 COLUMN DESKTOP
+========================================================= */
+
+.contact-form-card {
+  width: min(100%, 1000px);
+  margin: 0 auto;
+  padding: 38px 44px 30px;
+}
+
+.contact-project-form .contact-form-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  column-gap: 22px !important;
+  row-gap: 0 !important;
+  width: 100% !important;
+  margin: 0 0 14px !important;
+}
+
+.contact-project-form .contact-form-row > .project-form-field {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.contact-project-form .project-form-field label {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 6px !important;
+}
+
+.contact-project-form .project-form-field input,
+.contact-project-form .project-form-field select,
+.contact-project-form .project-form-field textarea {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.contact-project-form textarea {
+  min-height: 76px !important;
+  height: 76px !important;
+  resize: none;
+}
+
+.contact-project-form .project-form-submit {
+  width: 100% !important;
+  margin-top: 4px !important;
+  min-height: 46px !important;
+}
+
+/* Keep the direct links compact */
+.contact-form-card .project-form-links {
+  margin-top: 20px !important;
+  padding-top: 17px !important;
+}
+
+
+/* =========================================================
+   MOBILE — BACK TO ONE COLUMN
+========================================================= */
+
+@media (max-width: 700px) {
+  .contact-form-card {
+    padding: 28px 20px 24px;
+  }
+
+  .contact-project-form .contact-form-row {
+    grid-template-columns: 1fr !important;
+    row-gap: 14px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .contact-project-form .contact-form-row > .project-form-field {
+    width: 100% !important;
+  }
+
+  .contact-project-form textarea {
+    min-height: 110px !important;
+    height: 110px !important;
+  }
+}
+
+
+/* =========================================================
+   CONTACT PAGE — ONLY REQUESTED FIXES
+   ========================================================= */
+
+/* "Have a project in mind?" — use title/Mandalore font */
+.contact-page-heading h1 {
+  font-family: "Mandalore", sans-serif !important;
+  font-weight: 400;
+  font-size: clamp(55px, 6.5vw, 90px);
+  line-height: 0.92;
+  letter-spacing: 0;
+  text-align: center;
+  text-rendering: geometricPrecision;
+}
+
+/* Center the form intro text only */
+.project-form-header {
+  text-align: center;
+  padding-right: 0;
+}
+
+.project-form-header > p:last-child {
+  max-width: 700px;
+  margin: 20px auto 0;
+  text-align: center;
+}
+
+.contact-page-section .contact-description {
+  max-width: none !important;
+  width: max-content;
+  white-space: nowrap;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .contact-page-section .contact-description {
+    width: 100%;
+    white-space: normal;
+  }
+}
+
+.contact-description {
+  max-width: 850px;
+  width: 100%;
+  margin: 0 auto 32px;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .contact-description {
+    white-space: normal;
   }
 }
