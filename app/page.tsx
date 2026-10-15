@@ -1403,6 +1403,7 @@ export default function Home() {
                     projectType: formData.get("projectType"),
                     budget: formData.get("budget"),
                     message: formData.get("message"),
+                    website: formData.get("website"),
                   };
 
                   try {
@@ -1432,6 +1433,30 @@ export default function Home() {
                   }
                 }}
               >
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    width: "1px",
+                    height: "1px",
+                    padding: 0,
+                    margin: "-1px",
+                    overflow: "hidden",
+                    clip: "rect(0, 0, 0, 0)",
+                    whiteSpace: "nowrap",
+                    border: 0,
+                  }}
+                >
+                  <label htmlFor="project-website">Leave this field empty</label>
+                  <input
+                    id="project-website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
                 <div className="project-form-field">
                   <label htmlFor="project-name">
                     Your Name *
