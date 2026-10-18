@@ -83,9 +83,9 @@ export default function ServicesPage() {
 
         <nav className="nav" aria-label="Main navigation">
           <a href="/">Home</a>
-          <a href="/about">About</a>
           <a href="/portfolio">Portfolio</a>
           <a href="/services">Services</a>
+          <a href="/about">About</a>
           <a href="/contact">Contact</a>
         </nav>
 

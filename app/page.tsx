@@ -301,16 +301,18 @@ export default function Home() {
           />
         </div>
 
-        <nav
-          className="nav"
-          aria-label="Main navigation"
-        >
-<a href="/">Home</a>
-<a href="/about">About</a>
-<a href="/portfolio">Portfolio</a>
-<a href="/services">Services</a>
-<a href="/contact">Contact</a>
-        </nav>
+        
+<nav
+  className="nav"
+  aria-label="Main navigation"
+>
+  <a href="/" style={{ order: 1 }}>Home</a>
+  <a href="/portfolio" style={{ order: 2 }}>Portfolio</a>
+  <a href="/services" style={{ order: 3 }}>Services</a>
+  <a href="/about" style={{ order: 4 }}>About</a>
+  <a href="/contact" style={{ order: 5 }}>Contact</a>
+</nav>
+
 
         <div
           style={{
