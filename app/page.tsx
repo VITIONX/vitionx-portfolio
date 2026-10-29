@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Script from "next/script";
 
 type SocialIconProps = {
   type: "facebook" | "youtube" | "instagram" | "linkedin";
@@ -93,10 +94,37 @@ const reviews = [
 const REVIEWS_PER_PAGE = 3;
 const TRANSITION_DURATION = 900;
 
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: HTMLElement,
+        options: {
+          sitekey: string;
+          callback: (token: string) => void;
+          "expired-callback"?: () => void;
+          "error-callback"?: () => void;
+          theme?: "light" | "dark" | "auto";
+        }
+      ) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId: string) => void;
+    };
+  }
+}
+
 export default function Home() {
   const [showIntro, setShowIntro] = useState(false);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+const [turnstileLoaded, setTurnstileLoaded] = useState(false);
+const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
+
+const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+
+const turnstileSiteKey =
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const [formStatus, setFormStatus] = useState<
   "idle" | "success" | "error"
 >("idle");
@@ -198,6 +226,46 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+  if (
+    !showProjectForm ||
+    !turnstileLoaded ||
+    !turnstileSiteKey ||
+    !turnstileContainerRef.current ||
+    !window.turnstile
+  ) {
+    return;
+  }
+
+  const widgetId = window.turnstile.render(
+    turnstileContainerRef.current,
+    {
+      sitekey: turnstileSiteKey,
+      theme: "dark",
+      callback: (token) => {
+        setTurnstileToken(token);
+      },
+      "expired-callback": () => {
+        setTurnstileToken("");
+      },
+      "error-callback": () => {
+        setTurnstileToken("");
+      },
+    }
+  );
+
+  setTurnstileWidgetId(widgetId);
+
+  return () => {
+    if (window.turnstile) {
+      window.turnstile.remove(widgetId);
+    }
+
+    setTurnstileToken("");
+    setTurnstileWidgetId(null);
+  };
+}, [showProjectForm, turnstileLoaded, turnstileSiteKey]);
+
   /*
    * =========================================================
    * PREVENT BACKGROUND SCROLLING WHILE VIDEO MODAL IS OPEN
@@ -289,6 +357,13 @@ export default function Home() {
 
   return (
     <>
+
+    <Script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+  strategy="afterInteractive"
+  onLoad={() => setTurnstileLoaded(true)}
+/>
+
       {/* =========================
           HEADER
       ========================= */}
@@ -1391,9 +1466,13 @@ export default function Home() {
                 className="project-form"
                 onSubmit={async (e) => {
                   e.preventDefault();
+if (!turnstileToken) {
+  setFormStatus("error");
+  return;
+}
 
-                  setIsSubmitting(true);
-                  setFormStatus("idle");
+setIsSubmitting(true);
+setFormStatus("idle");
 
                   const form = e.currentTarget;
                   const formData = new FormData(form);
@@ -1406,6 +1485,7 @@ export default function Home() {
                     budget: formData.get("budget"),
                     message: formData.get("message"),
                     website: formData.get("website"),
+                    turnstileToken,
                   };
 
                   try {
@@ -1431,8 +1511,14 @@ export default function Home() {
                     console.error("Project inquiry error:", error);
                     setFormStatus("error");
                   } finally {
-                    setIsSubmitting(false);
-                  }
+  setIsSubmitting(false);
+
+  if (turnstileWidgetId && window.turnstile) {
+    window.turnstile.reset(turnstileWidgetId);
+  }
+
+  setTurnstileToken("");
+}
                 }}
               >
                 <div
@@ -1585,6 +1671,18 @@ export default function Home() {
                   />
                 </div>
 
+                <div className="project-form-field">
+  <label>Security Check</label>
+
+  {turnstileSiteKey ? (
+    <div ref={turnstileContainerRef} />
+  ) : (
+    <p className="project-form-error">
+      Security check is unavailable. Please try again later.
+    </p>
+  )}
+</div>
+
                 {formStatus === "success" && (
                   <div className="project-form-success">
                     ✓ Thanks! Your project inquiry has been sent
@@ -1602,7 +1700,7 @@ export default function Home() {
                 <button
                   type="submit"
                   className="project-form-submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !turnstileToken}
                 >
                   {isSubmitting
                     ? "SENDING..."
