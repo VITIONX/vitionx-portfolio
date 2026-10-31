@@ -385,7 +385,17 @@ const turnstileSiteKey =
   <a href="/portfolio" style={{ order: 2 }}>Portfolio</a>
   <a href="/services" style={{ order: 3 }}>Services</a>
   <a href="/about" style={{ order: 4 }}>About</a>
-  <a href="/contact" style={{ order: 5 }}>Contact</a>
+  <a
+  href="#contact"
+  style={{ order: 5 }}
+  onClick={(e) => {
+    e.preventDefault();
+    setFormStatus("idle");
+    setShowProjectForm(true);
+  }}
+>
+  Contact
+</a>
 </nav>
 
 
