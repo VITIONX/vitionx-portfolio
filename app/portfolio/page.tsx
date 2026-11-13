@@ -151,7 +151,7 @@ export default function PortfolioPage() {
               <div className="portfolio-image">
                 <img
                   src="/portfolio/project-01.jpg"
-                  alt="Strategic Brand Design"
+                  alt="Brand Identity Design"
                   loading="lazy"
                 />
               </div>
@@ -159,7 +159,7 @@ export default function PortfolioPage() {
               <div className="portfolio-info">
                 <span>01</span>
                 <h3>
-                  Strategic Brand Design
+                  Brand Identity Design
                 </h3>
               </div>
             </article>
@@ -189,7 +189,7 @@ export default function PortfolioPage() {
               <div className="portfolio-image">
                 <img
                   src="/portfolio/project-03.jpg"
-                  alt="Social Media Post Design"
+                  alt="Website Design & Development"
                   loading="lazy"
                 />
               </div>
@@ -197,7 +197,7 @@ export default function PortfolioPage() {
               <div className="portfolio-info">
                 <span>03</span>
                 <h3>
-                  Social Media Post Design
+                  Website Design & Development
                 </h3>
               </div>
             </article>
@@ -221,13 +221,13 @@ export default function PortfolioPage() {
               </div>
             </article>
 
-            {/* Project 05 */}
+                        {/* Project 05 */}
 
             <article className="portfolio-card">
               <div className="portfolio-image">
                 <img
                   src="/portfolio/project-05.jpg"
-                  alt="Logo Design"
+                  alt="Social Media Post Design"
                   loading="lazy"
                 />
               </div>
@@ -235,7 +235,7 @@ export default function PortfolioPage() {
               <div className="portfolio-info">
                 <span>05</span>
                 <h3>
-                  Logo Design
+                  Social Media Post Design
                 </h3>
               </div>
             </article>
@@ -246,7 +246,7 @@ export default function PortfolioPage() {
               <div className="portfolio-image">
                 <img
                   src="/portfolio/project-06.jpg"
-                  alt="Video Editing"
+                  alt="Logo Design"
                   loading="lazy"
                 />
               </div>
@@ -254,7 +254,7 @@ export default function PortfolioPage() {
               <div className="portfolio-info">
                 <span>06</span>
                 <h3>
-                  Video Editing
+                  Logo Design
                 </h3>
               </div>
             </article>
@@ -265,7 +265,7 @@ export default function PortfolioPage() {
               <div className="portfolio-image">
                 <img
                   src="/portfolio/project-07.jpg"
-                  alt="Social Media Cover and Banner Design"
+                  alt="Video Editing"
                   loading="lazy"
                 />
               </div>
@@ -273,8 +273,7 @@ export default function PortfolioPage() {
               <div className="portfolio-info">
                 <span>07</span>
                 <h3>
-                  Social Media Cover &amp;
-                  Banner Design
+                  Video Editing
                 </h3>
               </div>
             </article>
@@ -285,7 +284,7 @@ export default function PortfolioPage() {
               <div className="portfolio-image">
                 <img
                   src="/portfolio/project-08.jpg"
-                  alt="Product Image Editing"
+                  alt="Social Media Cover and Banner Design"
                   loading="lazy"
                 />
               </div>
@@ -293,7 +292,84 @@ export default function PortfolioPage() {
               <div className="portfolio-info">
                 <span>08</span>
                 <h3>
+                  Social Media Cover &amp;
+                  Banner Design
+                </h3>
+              </div>
+            </article>
+
+            {/* Project 09 */}
+
+            <article className="portfolio-card">
+              <div className="portfolio-image">
+                <img
+                  src="/portfolio/project-09.jpg"
+                  alt="Product Image Editing"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="portfolio-info">
+                <span>09</span>
+                <h3>
                   Product Image Editing
+                </h3>
+              </div>
+            </article>
+
+                        {/* Project 10 */}
+
+            <article className="portfolio-card">
+              <div className="portfolio-image">
+                <img
+                  src="/portfolio/project-10.jpg"
+                  alt="Thumbnail Design"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="portfolio-info">
+                <span>10</span>
+                <h3>
+                  Thumbnail Design
+                </h3>
+              </div>
+            </article>
+
+                        {/* Project 11 */}
+
+            <article className="portfolio-card">
+              <div className="portfolio-image">
+                <img
+                  src="/portfolio/project-11.jpg"
+                  alt="Flyer & Brochure Design"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="portfolio-info">
+                <span>11</span>
+                <h3>
+                  Flyer & Brochure Design
+                </h3>
+              </div>
+            </article>
+            
+                        {/* Project 12 */}
+
+            <article className="portfolio-card">
+              <div className="portfolio-image">
+                <img
+                  src="/portfolio/project-12.jpg"
+                  alt="Vector Tracing"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="portfolio-info">
+                <span>12</span>
+                <h3>
+                  Vector Tracing
                 </h3>
               </div>
             </article>
