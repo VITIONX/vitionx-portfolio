@@ -151,7 +151,7 @@ export default function ServicesPage() {
 
               <div className="service-card-content">
                 <h3>
-                  Brand Identity
+                  Strategic Brand Identity
                 </h3>
 
                 <p>
@@ -168,11 +168,33 @@ export default function ServicesPage() {
               </span>
             </article>
 
-            {/* Service 02 */}
+                        {/* Service 02 */}
 
             <article className="service-card">
               <span className="service-number">
                 02
+              </span>
+
+              <div className="service-card-content">
+                <h3>
+                  Website Design & Development
+                </h3>
+
+                <p>
+                Crafting modern, high-performance websites that elevate your brand and turn visitors into customers.
+                </p>
+              </div>
+
+              <span className="service-arrow">
+                ↗
+              </span>
+            </article>
+
+            {/* Service 03 */}
+
+            <article className="service-card">
+              <span className="service-number">
+                03
               </span>
 
               <div className="service-card-content">
@@ -193,16 +215,59 @@ export default function ServicesPage() {
               </span>
             </article>
 
-            {/* Service 03 */}
+            {/* Service 04 */}
 
             <article className="service-card">
               <span className="service-number">
-                03
+                04
               </span>
 
               <div className="service-card-content">
                 <h3>
-                  Social Media Design
+                  Stationery Design
+                </h3>
+
+                <p>
+Crafting branded business essentials that ensure consistency, recognition, and professionalism.                </p>
+              </div>
+
+              <span className="service-arrow">
+                ↗
+              </span>
+            </article>
+
+            {/* Service 05 */}
+
+            <article className="service-card">
+              <span className="service-number">
+                05
+              </span>
+
+              <div className="service-card-content">
+                <h3>
+                  Presentation Design
+                </h3>
+
+                <p>
+                 Transforming information into impactful presentations that engage audiences and communicate with confidence.
+                </p>
+              </div>
+
+              <span className="service-arrow">
+                ↗
+              </span>
+            </article>
+
+            {/* Service 06 */}
+
+            <article className="service-card">
+              <span className="service-number">
+                06
+              </span>
+
+              <div className="service-card-content">
+                <h3>
+                  Social Media Post / Banner
                 </h3>
 
                 <p>
