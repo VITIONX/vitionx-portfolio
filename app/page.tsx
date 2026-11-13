@@ -1,7 +1,8 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Script from "next/script";
+import { useContactModal } from "./providers";
 
 type SocialIconProps = {
   type: "facebook" | "youtube" | "instagram" | "linkedin";
@@ -94,40 +95,11 @@ const reviews = [
 const REVIEWS_PER_PAGE = 3;
 const TRANSITION_DURATION = 900;
 
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (
-        container: HTMLElement,
-        options: {
-          sitekey: string;
-          callback: (token: string) => void;
-          "expired-callback"?: () => void;
-          "error-callback"?: () => void;
-          theme?: "light" | "dark" | "auto";
-        }
-      ) => string;
-      reset: (widgetId?: string) => void;
-      remove: (widgetId: string) => void;
-    };
-  }
-}
-
 export default function Home() {
+  const { openContactModal } = useContactModal();
+
   const [showIntro, setShowIntro] = useState(false);
-  const [showProjectForm, setShowProjectForm] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState("");
-const [turnstileLoaded, setTurnstileLoaded] = useState(false);
-const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
 
-const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
-
-const turnstileSiteKey =
-  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-  const [formStatus, setFormStatus] = useState<
-  "idle" | "success" | "error"
->("idle");
   /*
    * =========================================================
    * CLIENT REVIEWS
@@ -226,46 +198,6 @@ const turnstileSiteKey =
     };
   }, []);
 
-  useEffect(() => {
-  if (
-    !showProjectForm ||
-    !turnstileLoaded ||
-    !turnstileSiteKey ||
-    !turnstileContainerRef.current ||
-    !window.turnstile
-  ) {
-    return;
-  }
-
-  const widgetId = window.turnstile.render(
-    turnstileContainerRef.current,
-    {
-      sitekey: turnstileSiteKey,
-      theme: "dark",
-      callback: (token) => {
-        setTurnstileToken(token);
-      },
-      "expired-callback": () => {
-        setTurnstileToken("");
-      },
-      "error-callback": () => {
-        setTurnstileToken("");
-      },
-    }
-  );
-
-  setTurnstileWidgetId(widgetId);
-
-  return () => {
-    if (window.turnstile) {
-      window.turnstile.remove(widgetId);
-    }
-
-    setTurnstileToken("");
-    setTurnstileWidgetId(null);
-  };
-}, [showProjectForm, turnstileLoaded, turnstileSiteKey]);
-
   /*
    * =========================================================
    * PREVENT BACKGROUND SCROLLING WHILE VIDEO MODAL IS OPEN
@@ -273,7 +205,7 @@ const turnstileSiteKey =
    */
 
   useEffect(() => {
-    if (showIntro || showProjectForm) {
+    if (showIntro) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -282,7 +214,7 @@ const turnstileSiteKey =
     return () => {
       document.body.style.overflow = "";
     };
-  }, [showIntro, showProjectForm]);
+  }, [showIntro]);
 
   /*
    * =========================================================
@@ -357,13 +289,6 @@ const turnstileSiteKey =
 
   return (
     <>
-
-    <Script
-  src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-  strategy="afterInteractive"
-  onLoad={() => setTurnstileLoaded(true)}
-/>
-
       {/* =========================
           HEADER
       ========================= */}
@@ -375,27 +300,26 @@ const turnstileSiteKey =
             alt="VITIONX"
           />
         </div>
-<nav
-  className="nav"
-  aria-label="Main navigation"
->
-  <a href="/" style={{ order: 1 }}>Home</a>
-  <a href="/portfolio" style={{ order: 2 }}>Portfolio</a>
-  <a href="/services" style={{ order: 3 }}>Services</a>
-  <a href="/about" style={{ order: 4 }}>About</a>
-  <a
-  href="#contact"
-  style={{ order: 5 }}
-  onClick={(e) => {
-    e.preventDefault();
-    setFormStatus("idle");
-    setShowProjectForm(true);
-  }}
->
-  Contact
-</a>
-</nav>
 
+        <nav
+          className="nav"
+          aria-label="Main navigation"
+        >
+          <a href="/" style={{ order: 1 }}>Home</a>
+          <a href="/portfolio" style={{ order: 2 }}>Portfolio</a>
+          <a href="/services" style={{ order: 3 }}>Services</a>
+          <a href="/about" style={{ order: 4 }}>About</a>
+          <a
+            href="#contact"
+            style={{ order: 5 }}
+            onClick={(e) => {
+              e.preventDefault();
+              openContactModal();
+            }}
+          >
+            Contact
+          </a>
+        </nav>
 
         <div
           style={{
@@ -406,10 +330,7 @@ const turnstileSiteKey =
           <button
             type="button"
             className="header-cta"
-            onClick={() => {
-              setFormStatus("idle");
-              setShowProjectForm(true);
-            }}
+            onClick={openContactModal}
           >
             Let's Talk <span>→</span>
           </button>
@@ -435,119 +356,120 @@ const turnstileSiteKey =
         </div>
       </header>
 
-{/* =========================
-    HERO
-========================= */}
+      {/* =========================
+          HERO
+      ========================= */}
 
-<main className="site">
-  <section
-    id="home"
-    className="hero"
-  >
-    <div className="hero-content">
-      <p className="hero-eyebrow">
-        HELLO, I&apos;M{" "}
-        <span>SAKIB</span>
-      </p>
-
-      <h1 className="hero-title">
-        strategic
-        <br />
-        brand{" "}
-        <span>designer</span>
-      </h1>
-
-      <p className="hero-description">
-        I create strategic, memorable and
-        professional visual identities that
-        help brands stand out and grow with
-        purpose.
-      </p>
-
-      <div className="hero-buttons">
-        <a
-          href="#portfolio"
-          className="primary-button"
+      <main className="site">
+        <section
+          id="home"
+          className="hero"
         >
-          VIEW MY WORK{" "}
-          <span>→</span>
-        </a>
+          <div className="hero-content">
+            <p className="hero-eyebrow">
+              HELLO, I&apos;M{" "}
+              <span>SAKIB</span>
+            </p>
 
-        <button
-          type="button"
-          className="secondary-button"
-          onClick={() =>
-            setShowIntro(true)
-          }
-          aria-label="Watch Sakib introduction video"
-        >
-          <span className="play-icon">
-            ▶
-          </span>
-          WATCH INTRO
-        </button>
-      </div>
+            <h1 className="hero-title">
+              strategic
+              <br />
+              brand{" "}
+              <span>designer</span>
+            </h1>
 
-      <div className="hero-proof">
-        <div className="proof-number">
-          700+
-        </div>
+            <p className="hero-description">
+              I create strategic, memorable and
+              professional visual identities that
+              help brands stand out and grow with
+              purpose.
+            </p>
 
-        <div className="proof-text">
-          <strong>PROJECTS</strong>
-          <span>
-            Completed Successfully
-          </span>
-        </div>
+            <div className="hero-buttons">
+              <a
+                href="#portfolio"
+                className="primary-button"
+              >
+                VIEW MY WORK{" "}
+                <span>→</span>
+              </a>
 
-        <div className="proof-line" />
+              <button
+                type="button"
+                className="secondary-button"
+                onClick={() =>
+                  setShowIntro(true)
+                }
+                aria-label="Watch Sakib introduction video"
+              >
+                <span className="play-icon">
+                  ▶
+                </span>
+                WATCH INTRO
+              </button>
+            </div>
 
-<a
-  href="https://www.fiverr.com/s/Q7lmbPR"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="proof-badge freelance-badge"
-  aria-label="Visit my Fiverr profile"
-  title="View my Fiverr profile"
->
-  <img
-    src="/icons/fiverr.svg"
-    alt=""
-    className="freelance-logo"
-  />
-</a>
+            <div className="hero-proof">
+              <div className="proof-number">
+                700+
+              </div>
 
-<a
-  href="https://www.upwork.com/freelancers/~01ef8afa2de340406e?mp_source=share"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="proof-badge freelance-badge"
-  aria-label="Visit my Upwork profile"
-  title="View my Upwork profile"
->
-  <img
-    src="/icons/upwork.svg"
-    alt=""
-    className="freelance-logo"
-  />
-</a>
+              <div className="proof-text">
+                <strong>PROJECTS</strong>
+                <span>
+                  Completed Successfully
+                </span>
+              </div>
 
-<a
-  href="https://www.freelancer.com/u/darkstorybangla8?sb=t"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="proof-badge freelance-badge"
-  aria-label="Visit my Freelancer.com profile"
-  title="View my Freelancer.com profile"
->
-  <img
-    src="/icons/freelancer.svg"
-    alt=""
-    className="freelance-logo"
-  />
-</a>
-      </div>
-    </div>
+              <div className="proof-line" />
+
+              <a
+                href="https://www.fiverr.com/s/Q7lmbPR"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="proof-badge freelance-badge"
+                aria-label="Visit my Fiverr profile"
+                title="View my Fiverr profile"
+              >
+                <img
+                  src="/icons/fiverr.svg"
+                  alt=""
+                  className="freelance-logo"
+                />
+              </a>
+
+              <a
+                href="https://www.upwork.com/freelancers/~01ef8afa2de340406e?mp_source=share"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="proof-badge freelance-badge"
+                aria-label="Visit my Upwork profile"
+                title="View my Upwork profile"
+              >
+                <img
+                  src="/icons/upwork.svg"
+                  alt=""
+                  className="freelance-logo"
+                />
+              </a>
+
+              <a
+                href="https://www.freelancer.com/u/darkstorybangla8?sb=t"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="proof-badge freelance-badge"
+                aria-label="Visit my Freelancer.com profile"
+                title="View my Freelancer.com profile"
+              >
+                <img
+                  src="/icons/freelancer.svg"
+                  alt=""
+                  className="freelance-logo"
+                />
+              </a>
+            </div>
+          </div>
+
           {/* =========================
               HERO VISUAL
           ========================= */}
@@ -573,10 +495,7 @@ const turnstileSiteKey =
             <button
               type="button"
               className="hero-orbit"
-              onClick={() => {
-                setFormStatus("idle");
-                setShowProjectForm(true);
-              }}
+              onClick={openContactModal}
               aria-label="Hire Sakib for a project"
             >
               <span>
@@ -728,7 +647,7 @@ const turnstileSiteKey =
           <h2>What I do</h2>
 
           <div className="service-grid">
-                        {/* Service 01 */}
+            {/* Service 01 */}
 
             <article className="service-card">
               <span className="service-number">
@@ -754,7 +673,7 @@ const turnstileSiteKey =
               </span>
             </article>
 
-                        {/* Service 02 */}
+            {/* Service 02 */}
 
             <article className="service-card">
               <span className="service-number">
@@ -767,7 +686,7 @@ const turnstileSiteKey =
                 </h3>
 
                 <p>
-                Crafting modern, high-performance websites that elevate your brand and turn visitors into customers.
+                  Crafting modern, high-performance websites that elevate your brand and turn visitors into customers.
                 </p>
               </div>
 
@@ -814,7 +733,8 @@ const turnstileSiteKey =
                 </h3>
 
                 <p>
-Crafting branded business essentials that ensure consistency, recognition, and professionalism.                </p>
+                  Crafting branded business essentials that ensure consistency, recognition, and professionalism.
+                </p>
               </div>
 
               <span className="service-arrow">
@@ -835,7 +755,7 @@ Crafting branded business essentials that ensure consistency, recognition, and p
                 </h3>
 
                 <p>
-                 Transforming information into impactful presentations that engage audiences and communicate with confidence.
+                  Transforming information into impactful presentations that engage audiences and communicate with confidence.
                 </p>
               </div>
 
@@ -968,7 +888,7 @@ Crafting branded business essentials that ensure consistency, recognition, and p
               </div>
             </article>
 
-                        {/* Project 05 */}
+            {/* Project 05 */}
 
             <article className="portfolio-card">
               <div className="portfolio-image">
@@ -1064,7 +984,7 @@ Crafting branded business essentials that ensure consistency, recognition, and p
               </div>
             </article>
 
-                        {/* Project 10 */}
+            {/* Project 10 */}
 
             <article className="portfolio-card">
               <div className="portfolio-image">
@@ -1083,7 +1003,7 @@ Crafting branded business essentials that ensure consistency, recognition, and p
               </div>
             </article>
 
-                        {/* Project 11 */}
+            {/* Project 11 */}
 
             <article className="portfolio-card">
               <div className="portfolio-image">
@@ -1101,8 +1021,8 @@ Crafting branded business essentials that ensure consistency, recognition, and p
                 </h3>
               </div>
             </article>
-            
-                        {/* Project 12 */}
+
+            {/* Project 12 */}
 
             <article className="portfolio-card">
               <div className="portfolio-image">
@@ -1120,7 +1040,6 @@ Crafting branded business essentials that ensure consistency, recognition, and p
                 </h3>
               </div>
             </article>
-            
           </div>
         </section>
 
@@ -1450,8 +1369,8 @@ Crafting branded business essentials that ensure consistency, recognition, and p
           </h2>
 
           <p className="contact-description">
-  Let's create something strategic, memorable and professionally designed for your brand.
-</p>
+            Let's create something strategic, memorable and professionally designed for your brand.
+          </p>
 
           <div className="contact-actions">
             <a
@@ -1464,96 +1383,90 @@ Crafting branded business essentials that ensure consistency, recognition, and p
             <button
               type="button"
               className="contact-button"
-              onClick={() => {
-                setFormStatus("idle");
-                setShowProjectForm(true);
-              }}
+              onClick={openContactModal}
             >
               Start a Project
               <span>↗</span>
             </button>
           </div>
-      
-{/* =================================================
-    SOCIAL MEDIA + FREELANCE PROFILES — CONTACT
-================================================= */}
 
-<div
-  className="contact-socials"
-  aria-label="VITIONX social media and freelance profile links"
->
+          {/* =================================================
+              SOCIAL MEDIA + FREELANCE PROFILES — CONTACT
+          ================================================= */}
 
-  {/* =================================================
-      FREELANCE PROFILES
-  ================================================= */}
+          <div
+            className="contact-socials"
+            aria-label="VITIONX social media and freelance profile links"
+          >
+            {/* =================================================
+                FREELANCE PROFILES
+            ================================================= */}
 
-  <a
-    href="https://www.fiverr.com/s/Q7lmbPR"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="freelance-badge"
-    aria-label="Visit VITIONX on Fiverr"
-    title="Fiverr"
-  >
-    <img
-      src="/icons/fiverr.svg"
-      alt="Fiverr"
-    />
-  </a>
+            <a
+              href="https://www.fiverr.com/s/Q7lmbPR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="freelance-badge"
+              aria-label="Visit VITIONX on Fiverr"
+              title="Fiverr"
+            >
+              <img
+                src="/icons/fiverr.svg"
+                alt="Fiverr"
+              />
+            </a>
 
-  <a
-    href="https://www.upwork.com/freelancers/~01ef8afa2de340406e?mp_source=share"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="freelance-badge"
-    aria-label="Visit VITIONX on Upwork"
-    title="Upwork"
-  >
-    <img
-      src="/icons/upwork.svg"
-      alt="Upwork"
-    />
-  </a>
+            <a
+              href="https://www.upwork.com/freelancers/~01ef8afa2de340406e?mp_source=share"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="freelance-badge"
+              aria-label="Visit VITIONX on Upwork"
+              title="Upwork"
+            >
+              <img
+                src="/icons/upwork.svg"
+                alt="Upwork"
+              />
+            </a>
 
-  <a
-    href="https://www.freelancer.com/u/darkstorybangla8?sb=t"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="freelance-badge"
-    aria-label="Visit VITIONX on Freelancer"
-    title="Freelancer"
-  >
-    <img
-      src="/icons/freelancer.svg"
-      alt="Freelancer"
-    />
-  </a>
+            <a
+              href="https://www.freelancer.com/u/darkstorybangla8?sb=t"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="freelance-badge"
+              aria-label="Visit VITIONX on Freelancer"
+              title="Freelancer"
+            >
+              <img
+                src="/icons/freelancer.svg"
+                alt="Freelancer"
+              />
+            </a>
 
-  {/* =================================================
-      SOCIAL MEDIA
-  ================================================= */}
+            {/* =================================================
+                SOCIAL MEDIA
+            ================================================= */}
 
-  {socialLinks.map((social) => (
-    <a
-      key={social.type}
-      href={social.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`contact-social-link ${
-        social.type === "instagram"
-          ? "instagram"
-          : ""
-      }`}
-      aria-label={`Visit VITIONX on ${social.label}`}
-      title={social.label}
-    >
-      <SocialIcon type={social.type} />
-    </a>
-  ))}
-
-</div>
-
-    </section>
+            {socialLinks.map((social) => (
+              <a
+                key={social.type}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`contact-social-link ${
+                  social.type === "instagram"
+                    ? "instagram"
+                    : ""
+                }`}
+                aria-label={`Visit VITIONX on ${social.label}`}
+                title={social.label}
+              >
+                <SocialIcon type={social.type} />
+              </a>
+            ))}
+          </div>
+        </section>
 
         {/* =========================
             FOOTER
@@ -1569,369 +1482,6 @@ Crafting branded business essentials that ensure consistency, recognition, and p
             Back to top ↑
           </a>
         </footer>
-
-        {/* =================================================
-            PROJECT INQUIRY FORM MODAL
-        ================================================= */}
-
-        {showProjectForm && (
-          <div
-            className="project-form-modal"
-            onClick={() => setShowProjectForm(false)}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Start a project"
-          >
-            <div
-              className="project-form-container"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                className="project-form-close"
-                onClick={() => setShowProjectForm(false)}
-                aria-label="Close project form"
-              >
-                ×
-              </button>
-
-              <div className="project-form-header">
-                <p className="section-label">
-                  START A PROJECT
-                </p>
-
-                <h2>
-                  Let's create
-                  <br />
-                  something great.
-                </h2>
-
-                <p>
-                  Tell me a little about your project and
-                  I'll get back to you as soon as possible.
-                </p>
-              </div>
-
-              <form
-                className="project-form"
-                onSubmit={async (e) => {
-                  e.preventDefault();
-if (!turnstileToken) {
-  setFormStatus("error");
-  return;
-}
-
-setIsSubmitting(true);
-setFormStatus("idle");
-
-                  const form = e.currentTarget;
-                  const formData = new FormData(form);
-
-                  const data = {
-                    name: formData.get("name"),
-                    email: formData.get("email"),
-                    company: formData.get("company"),
-                    projectType: formData.get("projectType"),
-                    budget: formData.get("budget"),
-                    message: formData.get("message"),
-                    website: formData.get("website"),
-                    turnstileToken,
-                  };
-
-                  try {
-                    const response = await fetch("/api/contact", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify(data),
-                    });
-
-                    const result = await response.json();
-
-                    if (!response.ok || !result.success) {
-                      throw new Error(
-                        result.message || "Something went wrong."
-                      );
-                    }
-
-                    setFormStatus("success");
-                    form.reset();
-                  } catch (error) {
-                    console.error("Project inquiry error:", error);
-                    setFormStatus("error");
-                  } finally {
-  setIsSubmitting(false);
-
-  if (turnstileWidgetId && window.turnstile) {
-    window.turnstile.reset(turnstileWidgetId);
-  }
-
-  setTurnstileToken("");
-}
-                }}
-              >
-                <div
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    width: "1px",
-                    height: "1px",
-                    padding: 0,
-                    margin: "-1px",
-                    overflow: "hidden",
-                    clip: "rect(0, 0, 0, 0)",
-                    whiteSpace: "nowrap",
-                    border: 0,
-                  }}
-                >
-                  <label htmlFor="project-website">Leave this field empty</label>
-                  <input
-                    id="project-website"
-                    name="website"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
-
-                <div className="project-form-field">
-                  <label htmlFor="project-name">
-                    Your Name *
-                  </label>
-                  <input
-                    id="project-name"
-                    name="name"
-                    type="text"
-                    placeholder="Your full name"
-                    autoComplete="name"
-                    required
-                  />
-                </div>
-
-                <div className="project-form-field">
-                  <label htmlFor="project-email">
-                    Email Address *
-                  </label>
-                  <input
-                    id="project-email"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    autoComplete="email"
-                    required
-                  />
-                </div>
-
-                <div className="project-form-field">
-                  <label htmlFor="project-company">
-                    Company / Brand
-                  </label>
-                  <input
-                    id="project-company"
-                    name="company"
-                    type="text"
-                    placeholder="Your company or brand name"
-                    autoComplete="organization"
-                  />
-                </div>
-
-                <div className="project-form-field">
-                  <label htmlFor="project-type">
-                    Project Type
-                  </label>
-                  <select
-                    id="project-type"
-                    name="projectType"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>
-                      Select project type
-                    </option>
-                    <option value="Brand Identity">
-                      Brand Identity
-                    </option>
-                    <option value="Logo Design">
-                      Logo Design
-                    </option>
-                    <option value="Graphic Design">
-                      Graphic Design
-                    </option>
-                    <option value="Social Media Design">
-                      Social Media Design
-                    </option>
-                    <option value="Presentation Design">
-                      Presentation Design
-                    </option>
-                    <option value="Product Image Editing">
-                      Product Image Editing
-                    </option>
-                    <option value="Video Editing">
-                      Video Editing
-                    </option>
-                    <option value="Other">
-                      Other
-                    </option>
-                  </select>
-                </div>
-
-                <div className="project-form-field">
-                  <label htmlFor="project-budget">
-                    Estimated Budget
-                  </label>
-                  <select
-                    id="project-budget"
-                    name="budget"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>
-                      Select your budget
-                    </option>
-                    <option value="Under $100">
-                      Under $100
-                    </option>
-                    <option value="$100 - $250">
-                      $100 – $250
-                    </option>
-                    <option value="$250 - $500">
-                      $250 – $500
-                    </option>
-                    <option value="$500 - $1000">
-                      $500 – $1,000
-                    </option>
-                    <option value="$1000+">
-                      $1,000+
-                    </option>
-                    <option value="Not sure yet">
-                      Not sure yet
-                    </option>
-                  </select>
-                </div>
-
-                <div className="project-form-field">
-                  <label htmlFor="project-message">
-                    Tell me about your project *
-                  </label>
-                  <textarea
-                    id="project-message"
-                    name="message"
-                    rows={6}
-                    placeholder="Tell me about your project, goals, timeline, and requirements..."
-                    required
-                  />
-                </div>
-
-                <div className="project-form-field">
-  <label>Security Check</label>
-
-  {turnstileSiteKey ? (
-    <div ref={turnstileContainerRef} />
-  ) : (
-    <p className="project-form-error">
-      Security check is unavailable. Please try again later.
-    </p>
-  )}
-</div>
-
-                {formStatus === "success" && (
-                  <div className="project-form-success">
-                    ✓ Thanks! Your project inquiry has been sent
-                    successfully. I'll get back to you soon.
-                  </div>
-                )}
-
-                {formStatus === "error" && (
-                  <div className="project-form-error">
-                    Something went wrong. Please try again or
-                    contact me directly by email.
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  className="project-form-submit"
-                  disabled={isSubmitting || !turnstileToken}
-                >
-                  {isSubmitting
-                    ? "SENDING..."
-                    : "SEND PROJECT INQUIRY"}
-                  <span>↗</span>
-                </button>
-              </form>
-
-              <div className="project-form-links">
-                <p>
-                  Prefer to connect directly?
-                </p>
-
-                <div
-                  className="contact-socials"
-                  aria-label="VITIONX social media and freelance profile links"
-                >
-                  <a
-                    href="https://www.fiverr.com/s/Q7lmbPR"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="freelance-badge"
-                    aria-label="Visit VITIONX on Fiverr"
-                    title="Fiverr"
-                  >
-                    <img
-                      src="/icons/fiverr.svg"
-                      alt="Fiverr"
-                    />
-                  </a>
-
-                  <a
-                    href="https://www.upwork.com/freelancers/~01ef8afa2de340406e?mp_source=share"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="freelance-badge"
-                    aria-label="Visit VITIONX on Upwork"
-                    title="Upwork"
-                  >
-                    <img
-                      src="/icons/upwork.svg"
-                      alt="Upwork"
-                    />
-                  </a>
-
-                  <a
-                    href="https://www.freelancer.com/u/darkstorybangla8?sb=t"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="freelance-badge"
-                    aria-label="Visit VITIONX on Freelancer"
-                    title="Freelancer"
-                  >
-                    <img
-                      src="/icons/freelancer.svg"
-                      alt="Freelancer"
-                    />
-                  </a>
-
-                  {socialLinks.map((social) => (
-                    <a
-                      key={social.type}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`contact-social-link ${
-                        social.type === "instagram"
-                          ? "instagram"
-                          : ""
-                      }`}
-                      aria-label={`Visit VITIONX on ${social.label}`}
-                      title={social.label}
-                    >
-                      <SocialIcon type={social.type} />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* =========================
             INTRO VIDEO MODAL

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { createContext, useContext, useState } from "react";
@@ -29,15 +30,18 @@ export default function Providers({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const openContactModal = () => setIsOpen(true);
-  const closeContactModal = () => setIsOpen(false);
-
   return (
     <ContactModalContext.Provider
-      value={{ openContactModal, closeContactModal }}
+      value={{
+        openContactModal: () => setIsOpen(true),
+        closeContactModal: () => setIsOpen(false),
+      }}
     >
       {children}
-      <ProjectInquiryModal isOpen={isOpen} onClose={closeContactModal} />
+      <ProjectInquiryModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </ContactModalContext.Provider>
   );
 }

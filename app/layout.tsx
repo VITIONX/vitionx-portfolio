@@ -1,6 +1,7 @@
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import "./globals.css";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "VITIONX — Strategic Brand Designer",
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <Providers>{children}</Providers>
         <GoogleAnalytics gaId="G-9P51KHL1MS" />
       </body>
     </html>
