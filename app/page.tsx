@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useContactModal } from "./providers";
 
 type SocialIconProps = {
@@ -97,6 +98,22 @@ const TRANSITION_DURATION = 900;
 
 export default function Home() {
   const { openContactModal } = useContactModal();
+
+  const pathname = usePathname();
+
+const isActive = (path: string) => {
+  const currentPath = pathname.replace(/\/+$/, "") || "/";
+  const targetPath = path.replace(/\/+$/, "") || "/";
+
+  if (targetPath === "/") {
+    return currentPath === "/";
+  }
+
+  return (
+    currentPath === targetPath ||
+    currentPath.startsWith(targetPath + "/")
+  );
+};
 
   const [showIntro, setShowIntro] = useState(false);
 
@@ -305,10 +322,42 @@ export default function Home() {
           className="nav"
           aria-label="Main navigation"
         >
-          <a href="/" style={{ order: 1 }}>Home</a>
-          <a href="/portfolio" style={{ order: 2 }}>Portfolio</a>
-          <a href="/services" style={{ order: 3 }}>Services</a>
-          <a href="/about" style={{ order: 4 }}>About</a>
+          <a
+            href="/"
+            style={{ order: 1 }}
+            className={isActive("/") ? "active" : ""}
+            aria-current={isActive("/") ? "page" : undefined}
+          >
+            Home
+          </a>
+
+          <a
+            href="/portfolio"
+            style={{ order: 2 }}
+            className={isActive("/portfolio") ? "active" : ""}
+            aria-current={isActive("/portfolio") ? "page" : undefined}
+          >
+            Portfolio
+          </a>
+
+          <a
+            href="/services"
+            style={{ order: 3 }}
+            className={isActive("/services") ? "active" : ""}
+            aria-current={isActive("/services") ? "page" : undefined}
+          >
+            Services
+          </a>
+
+          <a
+            href="/about"
+            style={{ order: 4 }}
+            className={isActive("/about") ? "active" : ""}
+            aria-current={isActive("/about") ? "page" : undefined}
+          >
+            About
+          </a>
+
           <a
             href="#contact"
             style={{ order: 5 }}

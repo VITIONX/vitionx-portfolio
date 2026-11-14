@@ -1,12 +1,24 @@
+
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   const closeMenu = () => {
     setOpen(false);
+  };
+
+  const normalizePath = (path: string) => {
+    if (path === "/") return "/";
+    return path.replace(/\/+$/, "");
+  };
+
+  const isActive = (path: string) => {
+    return normalizePath(pathname) === normalizePath(path);
   };
 
   return (
@@ -25,23 +37,23 @@ export default function MobileMenu() {
 
       <div className={`mobile-menu ${open ? "open" : ""}`}>
         <nav>
-          <a href="#home" onClick={closeMenu}>
+          <a href="/" onClick={closeMenu} className={isActive("/") ? "active" : ""} aria-current={isActive("/") ? "page" : undefined}>
             Home
           </a>
 
-          <a href="#about" onClick={closeMenu}>
+          <a href="/about" onClick={closeMenu} className={isActive("/about") ? "active" : ""} aria-current={isActive("/about") ? "page" : undefined}>
             About
           </a>
 
-          <a href="#services" onClick={closeMenu}>
+          <a href="/services" onClick={closeMenu} className={isActive("/services") ? "active" : ""} aria-current={isActive("/services") ? "page" : undefined}>
             Services
           </a>
 
-          <a href="#portfolio" onClick={closeMenu}>
+          <a href="/portfolio" onClick={closeMenu} className={isActive("/portfolio") ? "active" : ""} aria-current={isActive("/portfolio") ? "page" : undefined}>
             Portfolio
           </a>
 
-          <a href="#contact" onClick={closeMenu}>
+          <a href="/contact" onClick={closeMenu} className={isActive("/contact") ? "active" : ""} aria-current={isActive("/contact") ? "page" : undefined}>
             Contact
           </a>
         </nav>
