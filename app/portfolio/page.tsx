@@ -1,4 +1,6 @@
-"use client";
+
+import Link from "next/link";
+import { portfolioCategories } from "./portfolio-data";
 
 type SocialIconProps = {
   type: "facebook" | "youtube" | "instagram" | "linkedin";
@@ -26,13 +28,7 @@ function SocialIcon({ type }: SocialIconProps) {
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <rect x="3" y="3" width="18" height="18" rx="5" />
         <circle cx="12" cy="12" r="4.2" />
-        <circle
-          cx="17.4"
-          cy="6.7"
-          r="1"
-          fill="currentColor"
-          stroke="none"
-        />
+        <circle cx="17.4" cy="6.7" r="1" fill="currentColor" stroke="none" />
       </svg>
     );
   }
@@ -70,39 +66,27 @@ const socialLinks = [
 export default function PortfolioPage() {
   return (
     <>
-      {/* =========================
-          HEADER
-      ========================= */}
-
       <header className="header">
         <div className="logo">
-          <a href="/">
+          <Link href="/">
             <img src="/logo.svg" alt="VITIONX" />
-          </a>
+          </Link>
         </div>
 
         <nav className="nav" aria-label="Main navigation">
-          <a href="/">Home</a>
-          <a href="/portfolio">Portfolio</a>
-          <a href="/services">Services</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+          <Link href="/">Home</Link>
+          <Link href="/portfolio">Portfolio</Link>
+          <Link href="/services">Services</Link>
+          <Link href="/about">About</Link>
+          <Link href="/contact">Contact</Link>
         </nav>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <a href="/contact" className="header-cta">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Link href="/contact" className="header-cta">
             Let's Talk <span>→</span>
-          </a>
+          </Link>
 
-          <div
-            className="header-socials"
-            aria-label="Social media links"
-          >
+          <div className="header-socials" aria-label="Social media links">
             {socialLinks.map((social) => (
               <a
                 key={social.type}
@@ -120,275 +104,44 @@ export default function PortfolioPage() {
         </div>
       </header>
 
-      {/* =========================
-          PORTFOLIO
-      ========================= */}
-
       <main className="site">
-        <section
-          className="section"
-          style={{
-            paddingTop: "150px",
-          }}
-        >
+        <section className="section portfolio-main-section">
           <div className="section-heading-row">
             <div>
-              <p className="section-label">
-                MY WORK
-              </p>
-
-              <h2>
-                Selected projects
-              </h2>
+              <p className="section-label">MY WORK</p>
+              <h2>Selected projects</h2>
             </div>
           </div>
 
           <div className="portfolio-grid">
+            {portfolioCategories.map((category) => (
+              <Link
+                href={`/portfolio/${category.slug}`}
+                className="portfolio-card"
+                key={category.slug}
+                aria-label={`View ${category.title} portfolio`}
+              >
+                <div className="portfolio-image">
+                  <img
+                    src={category.cover}
+                    alt={category.title}
+                    loading="lazy"
+                  />
+                  <span className="portfolio-card-view">VIEW PROJECTS ↗</span>
+                </div>
 
-            {/* Project 01 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-01.jpg"
-                  alt="Brand Identity Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>01</span>
-                <h3>
-                  Brand Identity Design
-                </h3>
-              </div>
-            </article>
-
-            {/* Project 02 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-02.jpg"
-                  alt="Stationery Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>02</span>
-                <h3>
-                  Stationery Design
-                </h3>
-              </div>
-            </article>
-
-            {/* Project 03 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-03.jpg"
-                  alt="Website Design & Development"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>03</span>
-                <h3>
-                  Website Design & Development
-                </h3>
-              </div>
-            </article>
-
-            {/* Project 04 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-04.jpg"
-                  alt="Presentation Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>04</span>
-                <h3>
-                  Presentation Design
-                </h3>
-              </div>
-            </article>
-
-                        {/* Project 05 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-05.jpg"
-                  alt="Social Media Post Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>05</span>
-                <h3>
-                  Social Media Post Design
-                </h3>
-              </div>
-            </article>
-
-            {/* Project 06 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-06.jpg"
-                  alt="Logo Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>06</span>
-                <h3>
-                  Logo Design
-                </h3>
-              </div>
-            </article>
-
-            {/* Project 07 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-07.jpg"
-                  alt="Video Editing"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>07</span>
-                <h3>
-                  Video Editing
-                </h3>
-              </div>
-            </article>
-
-            {/* Project 08 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-08.jpg"
-                  alt="Social Media Cover and Banner Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>08</span>
-                <h3>
-                  Social Media Cover &amp;
-                  Banner Design
-                </h3>
-              </div>
-            </article>
-
-            {/* Project 09 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-09.jpg"
-                  alt="Product Image Editing"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>09</span>
-                <h3>
-                  Product Image Editing
-                </h3>
-              </div>
-            </article>
-
-                        {/* Project 10 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-10.jpg"
-                  alt="Thumbnail Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>10</span>
-                <h3>
-                  Thumbnail Design
-                </h3>
-              </div>
-            </article>
-
-                        {/* Project 11 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-11.jpg"
-                  alt="Flyer & Brochure Design"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>11</span>
-                <h3>
-                  Flyer & Brochure Design
-                </h3>
-              </div>
-            </article>
-            
-                        {/* Project 12 */}
-
-            <article className="portfolio-card">
-              <div className="portfolio-image">
-                <img
-                  src="/portfolio/project-12.jpg"
-                  alt="Vector Tracing"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="portfolio-info">
-                <span>12</span>
-                <h3>
-                  Vector Tracing
-                </h3>
-              </div>
-            </article>
-
+                <div className="portfolio-info">
+                  <span>{category.number}</span>
+                  <h3>{category.title}</h3>
+                </div>
+              </Link>
+            ))}
           </div>
         </section>
 
-        {/* =========================
-            FOOTER
-        ========================= */}
-
         <footer className="footer">
-          <p>
-            © 2026 VITIONX. All rights reserved.
-          </p>
-
-          <a href="/">
-            Back to home ↑
-          </a>
+          <p>© 2026 VITIONX. All rights reserved.</p>
+          <Link href="/">Back to home ↑</Link>
         </footer>
       </main>
     </>
