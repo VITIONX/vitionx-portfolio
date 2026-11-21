@@ -1,6 +1,8 @@
+
 "use client";
 
 import { useState } from "react";
+import { useContactModal } from "../providers";
 
 type SocialIconProps = {
   type: "facebook" | "youtube" | "instagram" | "linkedin";
@@ -81,6 +83,7 @@ const socialLinks = [
 
 export default function AboutPage() {
   const [showIntro, setShowIntro] = useState(false);
+  const { openContactModal } = useContactModal();
 
   return (
     <>
@@ -105,8 +108,17 @@ export default function AboutPage() {
           <a href="/">Home</a>
           <a href="/portfolio">Portfolio</a>
           <a href="/services">Services</a>
-   <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+
+          <a
+            href="/contact"
+            onClick={(e) => {
+              e.preventDefault();
+              openContactModal();
+            }}
+          >
+            Contact
+          </a>
         </nav>
 
         <div
@@ -118,6 +130,10 @@ export default function AboutPage() {
           <a
             href="/contact"
             className="header-cta"
+            onClick={(e) => {
+              e.preventDefault();
+              openContactModal();
+            }}
           >
             Let's Talk <span>→</span>
           </a>

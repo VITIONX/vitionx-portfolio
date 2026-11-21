@@ -1,4 +1,7 @@
+
 "use client";
+
+import { useContactModal } from "../providers";
 
 type SocialIconProps = {
   type: "facebook" | "youtube" | "instagram" | "linkedin";
@@ -68,6 +71,8 @@ const socialLinks = [
 ];
 
 export default function ServicesPage() {
+  const { openContactModal } = useContactModal();
+
   return (
     <>
       {/* =========================
@@ -86,7 +91,16 @@ export default function ServicesPage() {
           <a href="/portfolio">Portfolio</a>
           <a href="/services">Services</a>
           <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+
+          <a
+            href="/contact"
+            onClick={(e) => {
+              e.preventDefault();
+              openContactModal();
+            }}
+          >
+            Contact
+          </a>
         </nav>
 
         <div
@@ -95,7 +109,14 @@ export default function ServicesPage() {
             alignItems: "center",
           }}
         >
-          <a href="/contact" className="header-cta">
+          <a
+            href="/contact"
+            className="header-cta"
+            onClick={(e) => {
+              e.preventDefault();
+              openContactModal();
+            }}
+          >
             Let's Talk <span>→</span>
           </a>
 
@@ -168,7 +189,7 @@ export default function ServicesPage() {
               </span>
             </article>
 
-                        {/* Service 02 */}
+            {/* Service 02 */}
 
             <article className="service-card">
               <span className="service-number">
@@ -181,7 +202,7 @@ export default function ServicesPage() {
                 </h3>
 
                 <p>
-                Crafting modern, high-performance websites that elevate your brand and turn visitors into customers.
+                  Crafting modern, high-performance websites that elevate your brand and turn visitors into customers.
                 </p>
               </div>
 
@@ -228,7 +249,8 @@ export default function ServicesPage() {
                 </h3>
 
                 <p>
-Crafting branded business essentials that ensure consistency, recognition, and professionalism.                </p>
+                  Crafting branded business essentials that ensure consistency, recognition, and professionalism.
+                </p>
               </div>
 
               <span className="service-arrow">
@@ -249,7 +271,7 @@ Crafting branded business essentials that ensure consistency, recognition, and p
                 </h3>
 
                 <p>
-                 Transforming information into impactful presentations that engage audiences and communicate with confidence.
+                  Transforming information into impactful presentations that engage audiences and communicate with confidence.
                 </p>
               </div>
 

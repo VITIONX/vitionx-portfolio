@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import { portfolioCategories } from "./portfolio-data";
+import { getProjectCount } from "./portfolio-counts";
 
 type SocialIconProps = {
   type: "facebook" | "youtube" | "instagram" | "linkedin";
@@ -114,28 +115,42 @@ export default function PortfolioPage() {
           </div>
 
           <div className="portfolio-grid">
-            {portfolioCategories.map((category) => (
-              <Link
-                href={`/portfolio/${category.slug}`}
-                className="portfolio-card"
-                key={category.slug}
-                aria-label={`View ${category.title} portfolio`}
-              >
-                <div className="portfolio-image">
-                  <img
-                    src={category.cover}
-                    alt={category.title}
-                    loading="lazy"
-                  />
-                  <span className="portfolio-card-view">VIEW PROJECTS ↗</span>
-                </div>
+            {portfolioCategories.map((category) => {
+              // Counted automatically from public/portfolio/<slug>/
+              const projectCount = getProjectCount(category.slug);
 
-                <div className="portfolio-info">
-                  <span>{category.number}</span>
-                  <h3>{category.title}</h3>
-                </div>
-              </Link>
-            ))}
+              return (
+                <Link
+                  href={`/portfolio/${category.slug}`}
+                  className="portfolio-card"
+                  key={category.slug}
+                  aria-label={`View ${category.title} portfolio, ${projectCount} projects`}
+                >
+                  <div className="portfolio-image">
+                    <img
+                      src={category.cover}
+                      alt={category.title}
+                      loading="lazy"
+                    />
+
+                    <span className="portfolio-card-badge" aria-hidden="true">
+                      <span className="portfolio-card-badge-label">VIEW</span>
+                      <strong className="portfolio-card-badge-count">
+                        {String(projectCount).padStart(2, "0")}
+                      </strong>
+                      <span className="portfolio-card-badge-label">
+                        PROJECTS
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className="portfolio-info">
+                    <span>{category.number}</span>
+                    <h3>{category.title}</h3>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
