@@ -4544,7 +4544,7 @@ PORTFOLIO RESPONSIVE
 }
 
 /* =========================================================
-MOBILE BOTTOM NAVIGATION
+MOBILE TOP NAVIGATION
 The top menu (.nav) is hidden at 900px and below, so phones /
 small tablets get this bar on every page. Hidden on desktop.
 ========================================================= */
@@ -4556,20 +4556,20 @@ small tablets get this bar on every page. Hidden on desktop.
 @media (max-width: 900px) {
   .mobile-nav {
     position: fixed;
+    top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
     z-index: 900; /* below the lightbox and the modals (9999+) */
 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 
-    padding: 4px 6px calc(4px + env(safe-area-inset-bottom, 0px));
+    padding: calc(4px + env(safe-area-inset-top, 0px)) 6px 4px;
 
     background: rgba(8, 8, 8, 0.92);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .mobile-nav-link {
@@ -4579,7 +4579,7 @@ small tablets get this bar on every page. Hidden on desktop.
     align-items: center;
     justify-content: center;
 
-    min-height: 48px;
+    min-height: 44px;
     padding: 0 2px;
 
     border: 0;
@@ -4604,7 +4604,7 @@ small tablets get this bar on every page. Hidden on desktop.
   .mobile-nav-link.active::before {
     content: "";
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 50%;
 
     width: 22px;
@@ -4615,9 +4615,14 @@ small tablets get this bar on every page. Hidden on desktop.
     background: var(--orange);
   }
 
-  /* keeps the footer from hiding behind the bar */
+  /* pushes the page down so the header / hero never hide behind the bar */
   body {
-    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+    padding-top: calc(53px + env(safe-area-inset-top, 0px));
+  }
+
+  /* in-page links (#portfolio, #contact ...) stop below the bar */
+  html {
+    scroll-padding-top: 64px;
   }
 }
 

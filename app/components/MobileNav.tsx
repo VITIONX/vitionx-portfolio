@@ -24,7 +24,7 @@ function isActivePath(pathname: string, target: string) {
 }
 
 /**
- * Bottom navigation bar for phones / small tablets.
+ * Top navigation bar for phones / small tablets.
  * The desktop menu (.nav) is hidden at 900px and below, so this bar
  * keeps every page reachable. It is hidden by CSS on larger screens.
  */
