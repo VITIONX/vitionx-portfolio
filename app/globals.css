@@ -3839,12 +3839,22 @@ Extra adjustment for narrow screens
 /* ACTIVE NAVIGATION LINK */
 
 .header .nav a.active,
-.header .nav a[aria-current="page"] {
+.header .nav a[aria-current="page"],
+html[data-section="home"] .header .nav a[href="/"],
+html[data-section="portfolio"] .header .nav a[href="/portfolio"],
+html[data-section="services"] .header .nav a[href="/services"],
+html[data-section="about"] .header .nav a[href="/about"],
+html[data-section="contact"] .header .nav a[href="/contact"] {
   color: #f26f21 !important;
 }
 
 .header .nav a.active::after,
-.header .nav a[aria-current="page"]::after {
+.header .nav a[aria-current="page"]::after,
+html[data-section="home"] .header .nav a[href="/"]::after,
+html[data-section="portfolio"] .header .nav a[href="/portfolio"]::after,
+html[data-section="services"] .header .nav a[href="/services"]::after,
+html[data-section="about"] .header .nav a[href="/about"]::after,
+html[data-section="contact"] .header .nav a[href="/contact"]::after {
   width: 100% !important;
 }
 

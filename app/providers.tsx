@@ -2,6 +2,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+import ActiveSection from "./components/ActiveSection";
 import MobileNav from "./components/MobileNav";
 import ProjectInquiryModal from "./components/ProjectInquiryModal";
 
@@ -39,6 +40,7 @@ export default function Providers({
       }}
     >
       {children}
+      <ActiveSection />
       <MobileNav onContactClick={() => setIsOpen(true)} />
       <ProjectInquiryModal
         isOpen={isOpen}
