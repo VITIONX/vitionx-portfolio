@@ -4642,3 +4642,29 @@ small tablets get this bar on every page. Hidden on desktop.
     letter-spacing: 0;
   }
 }
+
+/* =========================================================
+LIGHT IMAGE PROTECTION
+Stops the easy ways of saving a sample: right-click "Save image",
+dragging the image out, long-press "Save" on phones, text-style
+selection. (It cannot stop screenshots or a determined developer.)
+========================================================= */
+
+/* thumbnails in the galleries + the category covers on /portfolio and home:
+   the image ignores the mouse, so the click / right-click lands on the card */
+.portfolio-gallery-card img,
+.portfolio-image img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* big image in the lightbox (right-click menu is blocked in the component) */
+.portfolio-lightbox-content img {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}

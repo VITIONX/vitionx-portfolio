@@ -341,6 +341,7 @@ export default function PortfolioGallery({ images }: PortfolioGalleryProps) {
               alt={images[activeIndex].alt}
               onLoad={playZoomIn}
               onClick={(event) => event.stopPropagation()}
+              onContextMenu={(event) => event.preventDefault()}
               draggable={false}
             />
             <p>

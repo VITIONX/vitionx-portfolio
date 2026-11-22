@@ -321,11 +321,14 @@ export default function VideoGallery({ videos }: VideoGalleryProps) {
               ref={setLightboxVideo}
               src={videos[activeIndex].src}
               controls
+              controlsList="nodownload"
+              disablePictureInPicture
               autoPlay
               playsInline
               aria-label={videos[activeIndex].alt}
               onLoadedMetadata={playZoomIn}
               onClick={(event) => event.stopPropagation()}
+              onContextMenu={(event) => event.preventDefault()}
             />
             <p>
               {activeIndex + 1} / {total}
