@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContactModal } from "./providers";
 import { portfolioCategories } from "./portfolio/portfolio-data";
@@ -660,7 +661,12 @@ const isActive = (path: string) => {
               changes here and on /portfolio automatically.
             */}
             {portfolioCategories.map((category) => (
-              <article className="portfolio-card" key={category.slug}>
+              <Link
+                href={`/portfolio/${category.slug}`}
+                className="portfolio-card"
+                key={category.slug}
+                aria-label={`View ${category.title} portfolio`}
+              >
                 <div className="portfolio-image">
                   <img
                     src={category.cover}
@@ -673,7 +679,7 @@ const isActive = (path: string) => {
                   <span>{category.number}</span>
                   <h3>{category.title}</h3>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
