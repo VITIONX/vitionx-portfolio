@@ -3,6 +3,8 @@
 
 import { useState } from "react";
 import { useContactModal } from "../providers";
+import AboutContent from "../components/AboutContent";
+import IntroVideoModal from "../components/IntroVideoModal";
 
 type SocialIconProps = {
   type: "facebook" | "youtube" | "instagram" | "linkedin";
@@ -173,76 +175,7 @@ export default function AboutPage() {
             alignItems: "center",
           }}
         >
-          <div className="about-content">
-
-            {/* LEFT — ABOUT IMAGE */}
-
-            <div className="about-media">
-              <div className="about-media-frame">
-
-                <img
-                  src="/about-video.jpg"
-                  alt="Sakib — Strategic Brand Designer"
-                  className="about-video-image"
-                />
-
-                <div className="about-media-overlay" />
-
-                <button
-                  type="button"
-                  className="about-play-button"
-                  onClick={() =>
-                    setShowIntro(true)
-                  }
-                  aria-label="Watch Sakib introduction video"
-                >
-                  <span>▶</span>
-                </button>
-
-                <div className="about-media-label">
-                  <span>01</span>
-                  <strong>
-                    ABOUT ME
-                  </strong>
-                </div>
-
-              </div>
-            </div>
-
-            {/* RIGHT — ABOUT CONTENT */}
-
-            <div className="about-details">
-
-              <p className="section-label">
-                ABOUT ME
-              </p>
-
-              <h2>
-                Designing brands
-                <br />
-                with purpose.
-              </h2>
-
-              <p className="about-intro">
-                I&apos;m Sakib, a Strategic Brand
-                Designer focused on creating
-                memorable, professional and
-                meaningful visual identities that
-                help brands stand out.
-              </p>
-
-              <p className="about-text">
-                With years of experience in
-                graphic and brand design, I work
-                across visual identity, marketing
-                communication and digital design
-                to build clear and consistent brand
-                experiences.
-              </p>
-
-            </div>
-
-          </div>
+          <AboutContent onPlayIntro={() => setShowIntro(true)} />
         </section>
 
         {/* =========================
@@ -266,44 +199,10 @@ export default function AboutPage() {
           INTRO VIDEO MODAL
       ========================= */}
 
-      {showIntro && (
-        <div
-          className="video-modal"
-          onClick={() =>
-            setShowIntro(false)
-          }
-          role="dialog"
-          aria-modal="true"
-          aria-label="Sakib introduction video"
-        >
-          <div
-            className="video-modal-content"
-            onClick={(e) =>
-              e.stopPropagation()
-            }
-          >
-            <button
-              type="button"
-              className="video-close"
-              onClick={() =>
-                setShowIntro(false)
-              }
-              aria-label="Close video"
-            >
-              ×
-            </button>
-
-            <div className="video-wrapper">
-              <iframe
-                src="https://www.youtube.com/embed/1P2d6WZwbMo?autoplay=1&rel=0"
-                title="Sakib — Strategic Brand Designer Introduction"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      <IntroVideoModal
+        isOpen={showIntro}
+        onClose={() => setShowIntro(false)}
+      />
     </>
   );
 }
