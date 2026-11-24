@@ -20,9 +20,20 @@ type Rect = {
   height: number;
 };
 
+type Direction = 1 | -1;
+
+/** The image that fades out while the next one fades in. */
+type Ghost = {
+  src: string;
+  rect: Rect;
+};
+
 const BATCH_SIZE = 30;
 const LOAD_MARGIN = 500;
-const ZOOM_DURATION = 480;
+
+const ZOOM_DURATION = 480; // thumbnail -> lightbox (first open)
+const FADE_DURATION = 450; // previous / next (crossfade)
+const FADE_EASING = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 /**
  * The area the artwork really occupies inside its thumbnail
@@ -52,6 +63,35 @@ function getVisibleRect(img: HTMLImageElement): Rect {
     width,
     height,
   };
+}
+
+/**
+ * Resolves when the image is loaded and decoded (or failed / took too long),
+ * so the crossfade never starts with an empty frame.
+ */
+function waitForImage(src: string, timeout = 1500): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    let finished = false;
+
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      window.clearTimeout(timer);
+      resolve();
+    };
+
+    const timer = window.setTimeout(finish, timeout);
+
+    img.src = src;
+
+    if (typeof img.decode === "function") {
+      img.decode().then(finish, finish);
+    } else {
+      img.onload = finish;
+      img.onerror = finish;
+    }
+  });
 }
 
 type GalleryCardProps = {
@@ -95,7 +135,13 @@ export default function PortfolioGallery({ images }: PortfolioGalleryProps) {
   );
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [ghost, setGhost] = useState<Ghost | null>(null);
+  // the image that arrived by crossfade: it must not play the opening fade too
+  const [noFadeSrc, setNoFadeSrc] = useState<string | null>(null);
   const isOpen = activeIndex !== null;
+
+  const activeIndexRef = useRef<number | null>(null);
+  activeIndexRef.current = activeIndex;
 
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
@@ -104,15 +150,43 @@ export default function PortfolioGallery({ images }: PortfolioGalleryProps) {
   const lightboxImgRef = useRef<HTMLImageElement | null>(null);
   const originRectRef = useRef<Rect | null>(null);
 
+  // previous / next crossfade bookkeeping
+  const busyRef = useRef(false);
+  const pendingDirRef = useRef<Direction | 0>(0);
+  const fadePendingRef = useRef(false);
+  const safetyTimerRef = useRef<number | null>(null);
+  const navigateRef = useRef<(dir: Direction) => void>(() => {});
+
   const visibleImages = useMemo(
     () => images.slice(0, visibleCount),
     [images, visibleCount]
   );
 
+  const clearSafetyTimer = useCallback(() => {
+    if (safetyTimerRef.current !== null) {
+      window.clearTimeout(safetyTimerRef.current);
+      safetyTimerRef.current = null;
+    }
+  }, []);
+
+  /** Called when a crossfade is over: drop the ghost, run a queued key press. */
+  const endTransition = useCallback(() => {
+    clearSafetyTimer();
+    fadePendingRef.current = false;
+    busyRef.current = false;
+    setGhost(null);
+
+    const pending = pendingDirRef.current;
+    pendingDirRef.current = 0;
+
+    if (pending !== 0) navigateRef.current(pending);
+  }, [clearSafetyTimer]);
+
   const openAt = useCallback(
     (index: number, thumb: HTMLImageElement | null) => {
       lastFocusedRef.current = document.activeElement as HTMLElement | null;
       originRectRef.current = thumb ? getVisibleRect(thumb) : null;
+      setNoFadeSrc(null);
       setActiveIndex(index);
     },
     []
@@ -120,28 +194,91 @@ export default function PortfolioGallery({ images }: PortfolioGalleryProps) {
 
   const closeLightbox = useCallback(() => {
     originRectRef.current = null;
+    pendingDirRef.current = 0;
+    fadePendingRef.current = false;
+    busyRef.current = false;
+    clearSafetyTimer();
+    setGhost(null);
+    setNoFadeSrc(null);
     setActiveIndex(null);
     lastFocusedRef.current?.focus?.();
-  }, []);
+  }, [clearSafetyTimer]);
 
-  const showPrevious = useCallback(() => {
-    if (total === 0) return;
-    setActiveIndex((current) =>
-      current === null ? null : (current - 1 + total) % total
-    );
-  }, [total]);
+  /**
+   * Previous / next with a crossfade: the next image fades in over the
+   * current one. The next image is loaded first, so there is never an
+   * empty frame in between.
+   */
+  const navigate = useCallback(
+    async (dir: Direction) => {
+      if (total < 2) return;
 
-  const showNext = useCallback(() => {
-    if (total === 0) return;
-    setActiveIndex((current) =>
-      current === null ? null : (current + 1) % total
-    );
-  }, [total]);
+      if (busyRef.current) {
+        pendingDirRef.current = dir; // run it right after the current crossfade
+        return;
+      }
+
+      const current = activeIndexRef.current;
+      if (current === null) return;
+
+      busyRef.current = true;
+
+      const next = (current + dir + total) % total;
+
+      await waitForImage(images[next].src);
+
+      // closed (or moved elsewhere) while the image was loading
+      if (activeIndexRef.current !== current) {
+        busyRef.current = false;
+        return;
+      }
+
+      const img = lightboxImgRef.current;
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (!reduceMotion && img && typeof img.animate === "function") {
+        const box = img.getBoundingClientRect();
+
+        fadePendingRef.current = true;
+
+        setGhost({
+          src: images[current].src,
+          rect: {
+            left: box.left,
+            top: box.top,
+            width: box.width,
+            height: box.height,
+          },
+        });
+
+        // never stay locked if the animation can't finish (e.g. image error)
+        clearSafetyTimer();
+        safetyTimerRef.current = window.setTimeout(
+          endTransition,
+          FADE_DURATION + 1500
+        );
+
+        setNoFadeSrc(images[next].src);
+        setActiveIndex(next);
+      } else {
+        setActiveIndex(next);
+        busyRef.current = false;
+      }
+    },
+    [images, total, clearSafetyTimer, endTransition]
+  );
+
+  navigateRef.current = navigate;
+
+  const showPrevious = useCallback(() => navigate(-1), [navigate]);
+  const showNext = useCallback(() => navigate(1), [navigate]);
 
   /**
    * Zoom the lightbox image out of the thumbnail that was clicked:
    * start at the thumbnail's position/size, end at its normal place.
-   * Runs once per open; next/previous use the normal fade instead.
+   * Runs once per open.
    */
   const playZoomIn = useCallback(() => {
     const img = lightboxImgRef.current;
@@ -179,16 +316,62 @@ export default function PortfolioGallery({ images }: PortfolioGalleryProps) {
     );
   }, []);
 
+  /**
+   * Crossfade: the new image fades in right on top of the old one (the
+   * "ghost"), then the old one fades away underneath. Nothing moves, and
+   * the screen never dips to black in between. Runs for every previous / next.
+   */
+  const playCrossfade = useCallback(() => {
+    const img = lightboxImgRef.current;
+
+    if (!img || !fadePendingRef.current) return;
+
+    const target = img.getBoundingClientRect();
+    if (!target.width || !target.height) return; // not loaded yet, onLoad retries
+
+    fadePendingRef.current = false;
+
+    const ghostEl = img
+      .closest(".portfolio-lightbox")
+      ?.querySelector<HTMLElement>(".portfolio-lightbox-ghost");
+
+    // old image: stays solid while the new one fades in, then fades out
+    ghostEl?.animate(
+      [
+        { opacity: 1 },
+        { opacity: 1, offset: 0.75 },
+        { opacity: 0 },
+      ],
+      { duration: FADE_DURATION, easing: FADE_EASING, fill: "forwards" }
+    );
+
+    const incoming = img.animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: FADE_DURATION,
+      easing: FADE_EASING,
+    });
+
+    incoming.onfinish = endTransition;
+    incoming.oncancel = endTransition;
+  }, [endTransition]);
+
+  const playEnter = useCallback(() => {
+    if (originRectRef.current) {
+      playZoomIn();
+    } else {
+      playCrossfade();
+    }
+  }, [playZoomIn, playCrossfade]);
+
   // Runs while React attaches the image (before the browser paints),
-  // so there is no flash of the full-size image before the zoom starts.
+  // so there is no flash of the full-size image before the animation starts.
   const setLightboxImg = useCallback(
     (node: HTMLImageElement | null) => {
       lightboxImgRef.current = node;
       if (node && node.complete && node.naturalWidth > 0) {
-        playZoomIn();
+        playEnter();
       }
     },
-    [playZoomIn]
+    [playEnter]
   );
 
   // Keyboard: Escape / Arrow keys
@@ -232,6 +415,9 @@ export default function PortfolioGallery({ images }: PortfolioGalleryProps) {
       preload.src = images[(activeIndex + step + total) % total].src;
     });
   }, [activeIndex, images, total]);
+
+  // Never leave a timer behind
+  useEffect(() => clearSafetyTimer, [clearSafetyTimer]);
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     const touch = event.touches[0];
@@ -339,15 +525,38 @@ export default function PortfolioGallery({ images }: PortfolioGalleryProps) {
               ref={setLightboxImg}
               src={images[activeIndex].src}
               alt={images[activeIndex].alt}
-              onLoad={playZoomIn}
+              onLoad={playEnter}
               onClick={(event) => event.stopPropagation()}
               onContextMenu={(event) => event.preventDefault()}
               draggable={false}
+              // an image that arrives by crossfade must not play the opening
+              // fade as well (kept while it is shown, so nothing restarts)
+              style={
+                noFadeSrc === images[activeIndex].src
+                  ? { animation: "none" }
+                  : undefined
+              }
             />
             <p>
               {activeIndex + 1} / {total}
             </p>
           </div>
+
+          {ghost && (
+            <img
+              className="portfolio-lightbox-ghost"
+              src={ghost.src}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              style={{
+                left: ghost.rect.left,
+                top: ghost.rect.top,
+                width: ghost.rect.width,
+                height: ghost.rect.height,
+              }}
+            />
+          )}
 
           <button
             type="button"

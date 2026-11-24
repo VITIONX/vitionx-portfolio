@@ -4083,6 +4083,7 @@ IMAGE LIGHTBOX
   justify-content: center;
 
   padding: 85px 90px 40px;
+  overflow: hidden;
 
   background: rgba(0, 0, 0, 0.96);
   backdrop-filter: blur(12px);
@@ -4115,6 +4116,9 @@ IMAGE LIGHTBOX
   border: 1px solid rgba(242, 111, 33, 0.3);
   box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
 
+  position: relative;
+  z-index: 2; /* above the old picture while it fades out underneath */
+
   animation: portfolio-lightbox-fade 0.3s ease both;
 }
 
@@ -4130,6 +4134,7 @@ IMAGE LIGHTBOX
 
 .portfolio-lightbox-close {
   position: absolute;
+  z-index: 5;
   top: 22px;
   right: 30px;
 
@@ -4157,6 +4162,7 @@ IMAGE LIGHTBOX
 
 .portfolio-lightbox-arrow {
   position: absolute;
+  z-index: 5;
   top: 50%;
   transform: translateY(-50%);
 
@@ -4656,6 +4662,26 @@ selection. (It cannot stop screenshots or a determined developer.)
 
 /* big image in the lightbox (right-click menu is blocked in the component) */
 .portfolio-lightbox-content img {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* Lightbox: the old picture that stays underneath while the next one fades in */
+
+.portfolio-lightbox-ghost {
+  position: fixed;
+  z-index: 1;
+
+  display: block;
+  box-sizing: border-box;
+  object-fit: contain;
+
+  border: 1px solid rgba(242, 111, 33, 0.3);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+
+  pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
